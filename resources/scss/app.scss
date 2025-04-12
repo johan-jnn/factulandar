@@ -116,3 +116,8 @@ dialog[open] {
 	opacity: 1;
 	translate: 0;
 }
+
+// AlpineJS
+[x-cloak] {
+	display: none !important;
+}

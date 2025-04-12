@@ -8,8 +8,10 @@ use Illuminate\Support\Facades\Route;
 Route::view("/", "index");
 
 Route::middleware("auth")->group(function () {
-  Route::view("/app", "pages.dashboard.index")->name("dashboard");
   Route::post("/me/logout", [UserController::class, "logout"])->name("perform_logout");
+  Route::post("/me/delete", [UserController::class,"delete"])->name('perform_user_delete');
+
+  Route::view("/app", "pages.dashboard.index")->name("dashboard");
   Route::view("/me", 'pages.account')->name('edit_user');
   Route::put("/me", [UserController::class, 'update'])->name('perform_user_edition');
 

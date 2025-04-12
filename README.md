@@ -27,8 +27,7 @@ Cet outil permet aux professionels de générer automatiquement des factures men
     ```
 2. **Installez les dépendances** :
     ```sh
-    composer install
-    bun i
+    composer install && bun i
     ```
 3. **Configurez la base de données** :
     - Assurez-vous que SQLite est installé.
