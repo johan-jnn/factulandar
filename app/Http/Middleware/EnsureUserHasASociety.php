@@ -17,7 +17,7 @@ class EnsureUserHasASociety
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::user()->societies()->exists())
-            return to_route('edit_user')
+            return to_route('account')
                 ->with([
                     'from' => $request->getUri()
                 ])

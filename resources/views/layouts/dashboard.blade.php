@@ -42,7 +42,7 @@
         <h2>Dashboard - {{ $page }}</h2>
 
         <div>
-            <a href="{{ route('edit_user') }}">
+            <a href="{{ route('account') }}">
                 <button type="button">
                     👤 {{ Auth::user()->name }}
                 </button>

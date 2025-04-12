@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class ClientController
 {
+    private function ensureUserHasClient(Client $client)
+    {
+        if ($client->user_id !== Auth::user()->id)
+            throw back()->withErrors([
+                'message' => 'Client introuvable.'
+            ]);
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -50,7 +57,7 @@ class ClientController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Client $client)
     {
         //
     }
