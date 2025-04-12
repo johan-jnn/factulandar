@@ -91,6 +91,58 @@
         </dialog>
 
         <section>
+            <h2>Mes sociétés</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sociétés</th>
+                        <th>Edition</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($user->societies()->orderBy('updated_at', 'desc')->get() as $society)
+                        <tr>
+                            <td>{{ $society->name }}</td>
+                            <td>
+                                <form
+                                    action="{{ route('perform_society_deletion', [
+                                        'society' => $society,
+                                    ]) }}"
+                                    method="post">
+                                    @csrf
+                                    @method('delete')
+
+                                    <button type="button" title="Modifier la société"
+                                        @click="
+                                      society_edition = {{ $society->toJson() }};
+                                      show_form= 'edit_society';
+                                    ">✍️</button>
+
+                                    <button type="submit" title="Supprimer la société"
+                                        @click.prevent='
+                                    if(!confirm("Es-tu certain de vouloir continuer ?\nTu perdras toutes les factures liées à cette société")) return;
+                                    action = "{{ route('perform_society_deletion', [
+                                        'society' => $society,
+                                    ]) }}";
+                                    $refs.danger_form.submit();
+                                    '>🗑️</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">
+                            <button type="button" style="width: 100%;" title="Créer une nouvelle société"
+                                @click="show_form = 'new_society'">➕</button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+
+        <section>
             <h2>Informations de compte</h2>
             <form action="{{ route('perform_user_edition') }}" method="post" x-data='{_changedpsw: ""}'>
                 @csrf
@@ -124,67 +176,22 @@
 
                 <div class="actions">
                     <button type="submit">Valider les changements</button>
+                    <button type="submit" @click='action = "{{ route('perform_logout') }}"'>Se déconnecter</button>
                 </div>
             </form>
 
             <form x-data='{action: ""}' x-ref="danger_form" class="danger" :action="action" method="post">
                 @csrf
-                <button type="submit" @click='action = "{{ route('perform_logout') }}"'>Se déconnecter</button>
+                <h3>Zone de danger</h3>
                 <button type="submit"
                     @click.prevent='
-              if(!confirm("Es-tu certain de vouloir continuer ?\nTu perdras toutes les informations de ton compte (sociétés, clients, factures, ...)")) return;
-              action = "{{ route('perform_user_delete') }}";
-              $refs.danger_form.submit();
-            '>
+            if(!confirm("Es-tu certain de vouloir continuer ?\nTu perdras toutes les informations de ton compte (sociétés, clients, factures, ...)")) return;
+            action = "{{ route('perform_user_delete') }}";
+            $refs.danger_form.submit();
+          '>
                     Supprimer mon compte
                 </button>
             </form>
-        </section>
-        <section>
-            <h2>Mes sociétés</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Sociétés</th>
-                        <th>Edition</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($user->societies()->orderBy('edited_at')->get() as $society)
-                        <tr>
-                            <td>{{ $society->name }}</td>
-                            <td>
-                                <form
-                                    action="{{ route('perform_society_deletion', [
-                                        'society' => $society,
-                                    ]) }}"
-                                    method="post">
-                                    @csrf
-                                    @method('delete')
-
-                                    <button type="button" title="Modifier la société"
-                                        @click="
-                                      society_edition = {{ $society->toJson() }};
-                                      show_form= 'edit_society';
-                                    ">✍️</button>
-
-                                    <button type="submit" title="Supprimer la société"
-                                        @click.prevent='
-                                    if(!confirm("Es-tu certain de vouloir continuer ?\nTu perdras toutes les factures liées à cette société")) return;
-                                    action = "{{ route('perform_society_deletion', [
-                                        'society' => $society,
-                                    ]) }}";
-                                    $refs.danger_form.submit();
-                                    '>🗑️</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-                <tfoot>
-                    <button type="button" title="Créer une nouvelle société" @click="show_form = 'new_society'">➕</button>
-                </tfoot>
-            </table>
         </section>
     </main>
 @endsection

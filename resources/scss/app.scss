@@ -34,6 +34,16 @@ body {
 	}
 }
 
+body > main {
+	padding: 1em 0.5em 2em;
+}
+
+h1 {
+	text-align: center;
+	text-decoration: underline;
+	margin-bottom: 1em;
+}
+
 ul,
 ol {
 	list-style: none;
@@ -115,6 +125,51 @@ dialog[open] {
 	filter: blur(0);
 	opacity: 1;
 	translate: 0;
+}
+
+table {
+	border-collapse: collapse;
+	border-radius: 5px;
+	overflow: hidden;
+	margin: 5px auto;
+	width: min(80%, 550px);
+
+	td,
+	th {
+		padding: 10px 15px;
+		text-align: center;
+		vertical-align: middle;
+	}
+
+	> thead {
+		background-color: rgba($color: map-get($colors, "primary"), $alpha: 0.5);
+	}
+	> tbody > tr {
+		&:not(:first-of-type) {
+			border-top: 2.5px dashed
+				rgba($color: map-get($map: $colors, $key: "primary"), $alpha: 0.75);
+		}
+	}
+	> tfoot {
+		background-color: rgba($color: map-get($colors, "primary"), $alpha: 0.25);
+	}
+}
+
+section {
+	padding: 3em 2em 0;
+}
+
+.danger {
+	margin: 25px auto;
+	display: grid;
+	place-content: center;
+	gap: 1em;
+	text-align: center;
+
+	padding: 1em;
+
+	border: 2px solid red;
+	border-radius: 5px;
 }
 
 // AlpineJS
