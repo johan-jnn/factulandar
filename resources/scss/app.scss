@@ -1,0 +1,118 @@
+@use "sass:map";
+@use "colors.scss" as *;
+@use "form.scss";
+@use "components/index";
+
+:root {
+	scroll-behavior: smooth;
+
+	@each $key, $color in $colors {
+		--color-#{$key}: #{$color};
+	}
+}
+
+*,
+::before,
+::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+body {
+	min-height: 100vh;
+	font-family: "Montserrat", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 600;
+	font-style: normal;
+
+	font-size: 18px;
+	background-color: map-get($map: $colors, $key: "light");
+	color: map-get($map: $colors, $key: "dark");
+
+	&:has(dialog[open]) {
+		overflow: hidden;
+	}
+}
+
+ul,
+ol {
+	list-style: none;
+}
+
+button {
+	cursor: pointer;
+	font-family: inherit;
+
+	padding: 0.75em 1em;
+
+	background-color: map-get($map: $colors, $key: "primary");
+	color: map-get($map: $colors, $key: "light");
+	border: 2.5px solid transparent;
+	font-weight: 600;
+	border-radius: 999px;
+
+	transition: 0.25s;
+
+	&:hover {
+		background-color: map-get($map: $colors, $key: "light");
+		color: map-get($map: $colors, $key: "primary");
+		border-color: map-get($map: $colors, $key: "primary");
+	}
+}
+
+// Only styling empty links
+a:not(:has(:not(span))) {
+	color: map-get($map: $colors, $key: "primary");
+	text-decoration: none;
+	position: relative;
+	width: fit-content;
+
+	&::before {
+		content: "";
+		position: absolute;
+		top: 100%;
+		right: 0;
+		background-color: map-get($map: $colors, $key: "primary");
+		border-radius: 999px;
+
+		width: 0;
+		height: 0.15em;
+
+		transition: 0.25s;
+	}
+
+	&:hover::before {
+		left: 0;
+		right: unset;
+		width: 100%;
+	}
+}
+
+dialog {
+	position: fixed;
+	z-index: 15;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	display: grid;
+	place-content: center;
+
+	pointer-events: none;
+	filter: blur(15px);
+	backdrop-filter: blur(15px);
+	opacity: 0;
+	translate: 0 -15px;
+
+	background-color: transparent;
+	border: none;
+
+	transition: 0.25s;
+}
+dialog[open] {
+	pointer-events: all;
+	filter: blur(0);
+	opacity: 1;
+	translate: 0;
+}

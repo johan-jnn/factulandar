@@ -1,0 +1,73 @@
+@use "sass:map";
+@use "colors" as *;
+
+form {
+	max-width: 650px;
+	margin: 0 auto;
+
+	label {
+		width: 100%;
+		display: grid;
+		gap: 0.25em;
+		margin-top: 2em;
+
+		> span.required::after {
+			content: "*";
+			color: map-get($map: $colors, $key: "primary");
+		}
+		> span.error {
+			font-size: 0.5em;
+			font-style: italic;
+			color: map-get($map: $colors, $key: "primary");
+		}
+	}
+
+	input,
+	textarea {
+		padding: 1em 0.5em;
+		font-family: inherit;
+		border-radius: 5px;
+		border: 0.25px solid map-get($map: $colors, $key: "dark");
+		outline: none;
+
+		&:focus {
+			border-color: map-get($map: $colors, $key: "primary");
+		}
+	}
+
+	textarea {
+		resize: vertical;
+		min-height: 100px;
+	}
+
+	fieldset {
+		margin-top: 1em;
+		padding: 0.75em 1em;
+		padding-bottom: 2em;
+		border-radius: 10px;
+		border-style: dashed;
+
+		> legend {
+			padding: 0 0.25em;
+			font-size: 1.25em;
+			color: map-get($map: $colors, $key: "primary");
+		}
+
+		> *:not(legend):first-of-type {
+			margin-top: 0;
+		}
+	}
+
+	> .actions {
+		display: grid;
+		place-content: center;
+		place-items: center;
+		gap: 0.75em;
+
+		margin-top: 1.5em;
+
+		> a {
+			font-size: 0.75em;
+		}
+	}
+}

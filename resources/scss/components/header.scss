@@ -1,0 +1,52 @@
+@use "sass:map";
+@use "../colors.scss" as *;
+
+$header-height: 80px;
+
+header {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	align-items: center;
+
+	position: sticky;
+	top: 0;
+	left: 0;
+	height: $header-height;
+	width: 100%;
+
+	padding: 5px 10px;
+
+	background-color: rgba($color: map-get($colors, "light"), $alpha: 0.75);
+  backdrop-filter: blur(15px);
+
+  z-index: 10;
+
+	> * {
+		text-align: center;
+		width: 100%;
+	}
+	> :first-child {
+		text-align: left;
+	}
+	> :last-child {
+		text-align: right;
+	}
+
+	> .logo {
+		height: 100%;
+		width: fit-content;
+		> img {
+			height: 100%;
+			aspect-ratio: 1 / 1;
+			object-fit: contain;
+		}
+	}
+
+  > nav > ul {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1em;
+  }
+}
