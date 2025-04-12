@@ -16,6 +16,14 @@
 
     <link rel="shortcut icon" href="/icon.svg" type="image/svg">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <x-use-toasts />
+    @isset($message)
+        <x-toast text="{{ $message }}" />
+    @endisset
+    @error('message')
+        <x-toast text="{{ $message }}" type="error" />
+    @enderror
 
     @vite(['resources/scss/app.scss', 'resources/scss/dashboard/_index.scss', 'resources/js/app.js'])
     @yield('head')
