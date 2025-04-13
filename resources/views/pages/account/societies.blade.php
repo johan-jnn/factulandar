@@ -104,6 +104,7 @@
                                 action="{{ route('perform_society_deletion', [
                                     'society' => $society,
                                 ]) }}"
+                                x-ref="danger_form"
                                 method="post">
                                 @csrf
                                 @method('delete')
