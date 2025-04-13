@@ -13,6 +13,7 @@ class toast extends Component
      */
     public function __construct(public string $text, public string $type = "info")
     {
+        $this->text = html_entity_decode($text);
     }
 
     /**

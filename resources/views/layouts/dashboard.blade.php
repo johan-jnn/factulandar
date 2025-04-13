@@ -16,11 +16,12 @@
 
     <link rel="shortcut icon" href="/icon.svg" type="image/svg">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    
+
     <x-use-toasts />
-    @isset($message)
-        <x-toast text="{{ $message }}" />
-    @endisset
+
+    @if (session('message'))
+        <x-toast text="{{ session('message') }}" />
+    @endif
     @error('message')
         <x-toast text="{{ $message }}" type="error" />
     @enderror
@@ -43,14 +44,14 @@
         $selected_client = $client ?? null;
     @endphp
     <header>
-        <a href="{{ route('dashboard') }}" class="logo">
+        <a href="{{ route('app.index') }}" class="logo">
             <img src="/icon.svg" alt="Iconne d'une facture">
         </a>
 
         <h2>Dashboard - {{ $page }}</h2>
 
         <div>
-            <a href="{{ route('account') }}">
+            <a href="{{ route('user.edit') }}">
                 <button type="button">
                     👤 {{ Auth::user()->name }}
                 </button>
@@ -86,7 +87,7 @@
 
         <dialog :open="client_creation" id="createclient">
             <h2>Créer un nouveau client</h2>
-            <form action="{{ route('insert_client') }}" method="post">
+            <form action="{{ route('clients.store') }}" method="post">
                 @csrf
                 <input type="hidden" name="_form" value="client_creation">
                 <label>
@@ -113,7 +114,7 @@
 
                 <div class="actions">
                     <button type="submit">Créer</button>
-                    <a href="#" @click="client_creation=false">Annuler</a>
+                    <a href="#" @click.prevent="client_creation=false">Annuler</a>
                 </div>
             </form>
         </dialog>
@@ -125,7 +126,7 @@
                         'selected' => $client->id == $selected_client?->id,
                     ]) data-caption="{{ $client->name }}">
                         <a
-                            href="{{ route('client', [
+                            href="{{ route('clients.show', [
                                 'client' => $client,
                             ]) }}">
                             <button>

@@ -19,7 +19,7 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended(route('dashboard'))->with([
+            return redirect()->intended(route('app.index'))->with([
                 "message" => "Vous venez de vous connecter !"
             ]);
         }
@@ -47,12 +47,25 @@ class UserController extends Controller
 
         $created_user = User::create($user_infos);
         Auth::login($created_user);
-        return redirect()->intended(route('dashboard'))->with([
+        return redirect()->intended(route('app.index'))->with([
             "message" => "Vous venez de créer votre compte !"
         ]);
     }
 
-    public function update(Request $request) {
+    public function update(Request $request)
+    {
+        $user = Auth::user();
 
+        $user_new_infos = $request->validate([
+            "name" => "required",
+            "email" => "required|email",
+            "password" => "required|confirmed",
+        ]);
+
+        $user->update($user_new_infos);
+
+        return redirect()->intended(route('user.edit'))->with([
+            "message" => "Vos informations ont bien été modifiées"
+        ]);
     }
 }

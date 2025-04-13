@@ -8,12 +8,12 @@
     <nav>
         <ul>
             @auth
-                <li><a href="{{ route('dashboard') }}"><button type="button">Accéder au panel</button></a></li>
+                <li><a href="{{ route('app.index') }}"><button type="button">Accéder au panel</button></a></li>
             @else
                 <li>
-                    <a href="{{ route('login') }}">Se connecter</a>
+                    <a href="{{ route('user.login') }}">Se connecter</a>
                 </li>
-                <li><a href="{{ route('register') }}"><button type="button">Créer mon compte</button></a></li>
+                <li><a href="{{ route('user.register') }}"><button type="button">Créer mon compte</button></a></li>
             @endauth
         </ul>
     </nav>

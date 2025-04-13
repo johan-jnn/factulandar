@@ -21,7 +21,7 @@
         <h1>Vos sociétés</h1>
 
         <dialog :open="show_form === 'new_society'">
-            <form action="{{ route('perform_society_creation') }}" method="post">
+            <form action="{{ route('societies.store') }}" method="post">
                 @csrf
                 <input type="hidden" name="_form" value="new_society">
                 <h3>Création d'une nouvelle société</h3>
@@ -56,7 +56,7 @@
         }'>
             @php
                 //! Code bellow includes Alpine x-bind syntax
-                $action = '"' . route('perform_society_edition', ['society' => 0]) . '" + society_edition?.id';
+                $action = '"' . route('societies.update', ['society' => 0]) . '" + society_edition?.id';
             @endphp
             <form :action="{{ $action }}" method="post">
                 @csrf
@@ -101,11 +101,10 @@
                         <td>{{ $society->name }}</td>
                         <td>
                             <form
-                                action="{{ route('perform_society_deletion', [
+                                action="{{ route('societies.destroy', [
                                     'society' => $society,
                                 ]) }}"
-                                x-ref="danger_form"
-                                method="post">
+                                x-ref="danger_form_{{ $society->id }}" method="post">
                                 @csrf
                                 @method('delete')
 
@@ -118,10 +117,7 @@
                                 <button type="submit" title="Supprimer la société"
                                     @click.prevent='
                                     if(!confirm("Es-tu certain de vouloir continuer ?\nTu perdras toutes les factures liées à cette société")) return;
-                                    action = "{{ route('perform_society_deletion', [
-                                        'society' => $society,
-                                    ]) }}";
-                                    $refs.danger_form.submit();
+                                    $refs.danger_form_{{ $society->id }}.submit();
                                     '>🗑️</button>
                             </form>
                         </td>

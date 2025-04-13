@@ -4,7 +4,7 @@
 
 @section('body')
     <h1>Connectez-vous</h1>
-    <form action="{{ route("perform_login") }}" method="post">
+    <form action="{{ route('user.do_login') }}" method="post">
         @csrf
 
         <label>
@@ -24,7 +24,7 @@
             <button type="submit">
                 Connexion
             </button>
-            <a href="{{ route('register') }}">Pas encore de compte ?</a>
+            <a href="{{ route('user.register') }}">Pas encore de compte ?</a>
         </div>
     </form>
 @endsection

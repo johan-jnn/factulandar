@@ -8,14 +8,14 @@
         <x-tabs :tabs="[
             [
                 'label' => 'Informations',
-                'url' => route('client', [
+                'url' => route('clients.show', [
                     'client' => $client,
                 ]),
                 'new_tab' => false,
             ],
             [
                 'label' => 'Modifier',
-                'url' => route('manage_client', [
+                'url' => route('clients.edit', [
                     'client' => $client,
                 ]),
             ],

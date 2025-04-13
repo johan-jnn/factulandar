@@ -15,6 +15,14 @@ class ClientController
                 'message' => 'Client introuvable.'
             ]);
     }
+
+    public function create(Request $request)
+    {
+        return to_route('app.index')->withInput([
+            '_form' => "client_creation"
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -29,7 +37,7 @@ class ClientController
         $client_fillables["user_id"] = Auth::user()->id;
 
         $created_client = Client::create($client_fillables);
-        return redirect()->intended(route('client', [
+        return redirect()->intended(route('user.edit', [
             'client' => $created_client
         ]))->with([
                     'message' => "{$client_fillables['name']} vient d'être créée"
@@ -41,6 +49,7 @@ class ClientController
      */
     public function show(Client $client)
     {
+        $this->ensureUserHasClient($client);
         return view('pages.dashboard.client.index', [
             'client' => $client,
         ]);
@@ -71,7 +80,7 @@ class ClientController
     public function destroy(Client $client)
     {
         $client->delete();
-        return to_route('dashboard')->with([
+        return to_route('app.index')->with([
             'message' => "{$client->name} vient d'être supprimé"
         ]);
     }

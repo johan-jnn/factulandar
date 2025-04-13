@@ -4,7 +4,7 @@
 
 @section('page')
     <h2>Modification du client</h2>
-    <form action="{{ route('update_client', [
+    <form action="{{ route('clients.update', [
         'client' => $client,
     ]) }}" method="post">
         @csrf
@@ -29,7 +29,7 @@
         </div>
     </form>
 
-    <form action="{{ route('delete_client', [
+    <form action="{{ route('clients.destroy', [
         'client' => $client,
     ]) }}" method="post">
         @csrf

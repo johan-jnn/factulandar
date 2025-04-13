@@ -6,11 +6,12 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <x-use-toasts />
-    @isset($message)
-        <x-toast text="{{ $message }}" />
-    @endisset
+
+    @if (session('message'))
+        <x-toast :text="session('message')" />
+    @endif
     @error('message')
-        <x-toast text="{{ $message }}" type="error" />
+        <x-toast :text="$message" type="error" />
     @enderror
 @endsection
 
@@ -21,11 +22,11 @@
         <x-tabs :tabs="[
             [
                 'label' => 'Mon compte',
-                'url' => route('account'),
+                'url' => route('user.edit'),
             ],
             [
                 'label' => 'Mes sociétés',
-                'url' => route('account_societies'),
+                'url' => route('societies.index'),
             ],
         ]">
             @yield('page')

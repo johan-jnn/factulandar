@@ -13,7 +13,7 @@
 @section('page')
     <section class="skip-pad">
         <h1>Informations de compte</h1>
-        <form action="{{ route('perform_user_edition') }}" method="post" x-data='{_changedpsw: ""}'>
+        <form action="{{ route('user.update') }}" method="post" x-data='{_changedpsw: ""}'>
             @csrf
             @method('put')
 
@@ -51,11 +51,13 @@
         <form x-data='{action: ""}' x-ref="danger_form" class="danger" :action="action" method="post">
             @csrf
             <h3>Zone de danger</h3>
-            <button type="submit" @click='action = "{{ route('perform_logout') }}"'>Se déconnecter</button>
+            <a href="{{ route('user.do_logout') }}">
+              <button type="button"'>Se déconnecter</button>
+            </a>
             <button type="submit"
                 @click.prevent='
             if(!confirm("Es-tu certain de vouloir continuer ?\nTu perdras toutes les informations de ton compte (sociétés, clients, factures, ...)")) return;
-            action = "{{ route('perform_user_delete') }}";
+            action = "{{ route('user.destroy') }}";
             $refs.danger_form.submit();
           '>
                 Supprimer mon compte

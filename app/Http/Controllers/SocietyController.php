@@ -35,7 +35,7 @@ class SocietyController
         $society_fillables["owner_id"] = Auth::user()->id;
         Society::create($society_fillables);
 
-        return redirect()->intended(route('account_societies'))
+        return redirect()->intended(route('societies.index'))
             ->with([
                 'message' => "{$society_fillables['name']} vient d'être créée"
             ]);
@@ -54,7 +54,7 @@ class SocietyController
             "address" => $updated_society_info["new_address"],
         ]);
 
-        return to_route('account_societies')->with([
+        return to_route('societies.index')->with([
             'message' => "{$society->name} a bien été modifiée"
         ]);
     }
@@ -65,7 +65,7 @@ class SocietyController
 
         $society->delete();
 
-        return to_route('account_societies')->with([
+        return to_route('societies.index')->with([
             'message' => "{$society->name} vient d'être supprimée"
         ]);
     }
