@@ -22,10 +22,11 @@
         <section id="clients">
             <h2>Vos clients</h2>
             <p>Vous pouvez retrouver la liste de vos clients sur la partie gauche de cette interface.</p>
-            <p>En cliquant sur le bouton <button type="button" disabled>➕</button>, vous pouvez ajouter un nouveau client.
+            <p>En cliquant sur le bouton <button type="button" class="visual">➕</button>, vous pouvez ajouter un nouveau
+                client.
             </p>
             <p>Vous pouvez également rechercher des clients en appuyant sur le bouton <button type="button"
-                    disabled>🔍️</button>.</p>
+                    class="visual">🔍️</button>.</p>
             <hr>
             <p>Après avoir sélectionner un client, vous trouverez les informations sur celui-ci comme le nombre de facture
                 faites, le calendrier associé, etc...</p>
@@ -38,7 +39,8 @@
             <p>Vous pouvez cliquer sur un de ces factures pour retrouver la retrouver. Notez qu'une fois la facture validée,
                 vous pourrez uniquement la supprimer ou la dupliquer, mais en aucun elle ne pourra être modifiée.</p>
             <p>Pour créer une nouvelle facture, vous pouvez soit dupliquer une facture existante, soit appuyer sur le bouton
-                <button type="button">Créer une facture</button> qui vous emmenera sur la page de création de factures.
+                <button type="button" class="visual">Créer une facture</button> qui vous emmenera sur la page de création de
+                factures.
             </p>
         </section>
         <section id="info">

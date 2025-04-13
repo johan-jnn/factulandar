@@ -69,6 +69,17 @@ button {
 		color: map-get($map: $colors, $key: "primary");
 		border-color: map-get($map: $colors, $key: "primary");
 	}
+
+	&.visual {
+		pointer-events: none;
+	}
+	&:disabled {
+		pointer-events: none;
+		background-color: rgba(
+			$color: map-get($map: $colors, $key: "dark"),
+			$alpha: 0.5
+		);
+	}
 }
 
 // Only styling empty links
