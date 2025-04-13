@@ -160,6 +160,14 @@ section {
 	padding: 3em 2em 0;
 }
 
+hr {
+	margin: 2em auto;
+	padding: 0 10px;
+	max-width: 500px;
+	border: 2px solid map-get($map: $colors, $key: "primary");
+	border-radius: 999px;
+}
+
 .danger {
 	margin: 25px auto;
 	display: grid;
