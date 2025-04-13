@@ -19,6 +19,12 @@
                     'client' => $client,
                 ]),
             ],
+            [
+                'label' => 'Factures',
+                'url' => route('client.invoices', [
+                    'client' => $client,
+                ]),
+            ],
         ]">
             @yield('page')
         </x-tabs>

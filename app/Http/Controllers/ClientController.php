@@ -98,4 +98,15 @@ class ClientController
             'message' => "{$client->name} vient d'être supprimé"
         ]);
     }
+
+    public function show_invoices(Client $client)
+    {
+        $this->ensureUserHasClient($client);
+
+        $invoices = $client->invoices();
+        return view('pages.dashboard.client.invoices', [
+            'client' => $client,
+            'invoices' => $invoices
+        ]);
+    }
 }

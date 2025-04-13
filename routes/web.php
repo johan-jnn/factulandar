@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\SocietyController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\EnsureClientIsFromUser;
@@ -24,6 +25,10 @@ Route::middleware("auth")->group(function () {
 
   // Clients
   Route::resource('/app/clients', ClientController::class)->except(['index']);
+  Route::get('/app/clients/{client}/invoices', [ClientController::class, 'show_invoices'])->name('client.invoices');
+
+  // Invoices
+  Route::resource('/app/invoices', InvoiceController::class);
 });
 
 Route::middleware("guest")->group(function () {
