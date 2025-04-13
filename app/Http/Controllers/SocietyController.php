@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Society;
+use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -14,6 +15,14 @@ class SocietyController
             throw back()->withErrors([
                 'message' => 'Société introuvable.'
             ]);
+    }
+
+    public function index(Request $request)
+    {
+        $societies = Auth::user()->societies();
+        return view('pages.account.societies', [
+            'societies' => $societies
+        ]);
     }
 
     public function store(Request $request)

@@ -15,7 +15,8 @@ Route::middleware("auth")->group(function () {
 
   Route::view("/app", "pages.dashboard.index")->name("dashboard");
 
-  Route::view("/me", 'pages.account')->name('account');
+  Route::view("/me", 'pages.account.index')->name('account');
+  Route::get('/me/societies', [SocietyController::class, 'index'])->name('account_societies');
   Route::put("/me", [UserController::class, 'update'])->name('perform_user_edition');
 
   Route::post('/society', [SocietyController::class, 'store'])->name('perform_society_creation');

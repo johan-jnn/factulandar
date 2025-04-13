@@ -156,7 +156,7 @@ table {
 	}
 }
 
-section {
+section:not(.skip-pad) {
 	padding: 3em 2em 0;
 }
 
