@@ -1,0 +1,29 @@
+@use "sass:map";
+@use "../colors.scss" as *;
+
+.tabs {
+	display: grid;
+	grid: auto / auto 1fr;
+	gap: 1em;
+	> aside > ul {
+		border-right: 2px solid map-get($map: $colors, $key: "primary");
+
+		> li {
+			padding: 1em 2em;
+      border-radius: 5px 0 0 5px;
+
+			&.current {
+				pointer-events: none;
+				background-color: map-get($map: $colors, $key: "primary");
+				&,
+				a {
+					color: map-get($map: $colors, $key: "light");
+				}
+			}
+
+			> a {
+				height: 100%;
+			}
+		}
+	}
+}

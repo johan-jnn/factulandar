@@ -25,6 +25,7 @@ Route::middleware("auth")->group(function () {
 
   Route::post("/app/client", [ClientController::class, "store"])->name("insert_client");
   Route::get("/app/client/{client}", [ClientController::class, "show"])->name("client");
+  Route::get("/app/client/{client}/edit", [ClientController::class, "edit"])->name("manage_client");
   Route::delete("/app/client/{client}", [ClientController::class, "destroy"])->name("delete_client");
 });
 

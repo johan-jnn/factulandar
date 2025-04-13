@@ -1,9 +1,8 @@
-@extends('layouts.dashboard', [
-    'page' => "{$client->name}",
+@extends('layouts.client', [
+    'client' => $client,
 ])
 
-@section('body')
-    <h1>{{ $client->name }}</h1>
+@section('page')
     <form action="{{ route('delete_client', [
         'client' => $client,
     ]) }}" method="post">
@@ -14,8 +13,4 @@
             Supprimer le client
         </button>
     </form>
-
-    <section>
-
-    </section>
 @endsection

@@ -41,7 +41,7 @@ class ClientController
      */
     public function show(Client $client)
     {
-        return view('pages.dashboard.client', [
+        return view('pages.dashboard.client.index', [
             'client' => $client,
         ]);
     }
@@ -49,9 +49,12 @@ class ClientController
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Client $client)
     {
-        //
+        $this->ensureUserHasClient($client);
+        return view('pages.dashboard.client.manage', [
+            'client' => $client,
+        ]);
     }
 
     /**
