@@ -45,13 +45,13 @@
 
             <div class="actions">
                 <button type="submit">Valider les changements</button>
-                <button type="submit" @click='action = "{{ route('perform_logout') }}"'>Se déconnecter</button>
             </div>
         </form>
 
         <form x-data='{action: ""}' x-ref="danger_form" class="danger" :action="action" method="post">
             @csrf
             <h3>Zone de danger</h3>
+            <button type="submit" @click='action = "{{ route('perform_logout') }}"'>Se déconnecter</button>
             <button type="submit"
                 @click.prevent='
             if(!confirm("Es-tu certain de vouloir continuer ?\nTu perdras toutes les informations de ton compte (sociétés, clients, factures, ...)")) return;
