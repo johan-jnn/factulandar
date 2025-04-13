@@ -49,6 +49,8 @@ body > main {
 					translate: 15px -50%;
 					border-radius: 5px;
 
+					z-index: 10;
+
 					opacity: 0;
 					transition: $tooltipTransitionDuration;
 				}

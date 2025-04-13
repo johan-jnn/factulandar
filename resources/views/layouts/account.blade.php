@@ -1,5 +1,6 @@
 @extends('layouts.app', [
     'title' => $title ?? $user->name,
+    'indexURL' => route('app.index')
 ])
 
 @section('head')

@@ -17,6 +17,13 @@
             <input type="text" name="new_name" value="{{ old('name', $client->name) }}" required>
         </label>
         <label>
+            <span class="required">Calendrier du client</span>
+            @error('calendar_url')
+                <span class="error">{{ $message }}</span>
+            @enderror
+            <input type="text" name="calendar_url" value="{{ old('calendar_url', $client->calendar_url) }}" required>
+        </label>
+        <label>
             <span class="required">Addresse postale</span>
             @error('address')
                 <span class="error" x-show="!!olds">{{ $message }}</span>

@@ -21,7 +21,7 @@
 </head>
 
 <body>
-    <x-header page-title="{{ $title }}" />
+    <x-header :page-title="$title" :logo-url="$indexURL ?? null" />
     @yield('body')
 </body>
 

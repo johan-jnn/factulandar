@@ -50,13 +50,18 @@
 
         <h2>Dashboard - {{ $page }}</h2>
 
-        <div>
-            <a href="{{ route('user.edit') }}">
-                <button type="button">
-                    👤 {{ Auth::user()->name }}
-                </button>
-            </a>
-        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Quitter l'application</a></li>
+                <li>
+                    <a href="{{ route('user.edit') }}">
+                        <button type="button">
+                            👤 {{ Auth::user()->name }}
+                        </button>
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </header>
     <main x-data="{
         hide_all() {

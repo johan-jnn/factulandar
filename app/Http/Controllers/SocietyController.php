@@ -11,10 +11,10 @@ class SocietyController
 {
     private function ensureUserHasSociety(Society $society)
     {
-        if ($society->owner_id !== Auth::user()->id)
-            throw back()->withErrors([
-                'message' => 'Société introuvable.'
-            ]);
+        abort_if(
+            $society->owner_id !== Auth::user()->id,
+            404
+        );
     }
 
     public function index(Request $request)

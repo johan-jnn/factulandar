@@ -10,10 +10,7 @@ class ClientController
 {
     private function ensureUserHasClient(Client $client)
     {
-        if ($client->user_id !== Auth::user()->id)
-            throw back()->withErrors([
-                'message' => 'Client introuvable.'
-            ]);
+        abort_if($client->user_id !== Auth::user()->id, 404);
     }
 
     public function create(Request $request)
@@ -37,7 +34,7 @@ class ClientController
         $client_fillables["user_id"] = Auth::user()->id;
 
         $created_client = Client::create($client_fillables);
-        return redirect()->intended(route('user.edit', [
+        return redirect()->intended(route('clients.show', [
             'client' => $created_client
         ]))->with([
                     'message' => "{$client_fillables['name']} vient d'être créée"
@@ -79,6 +76,8 @@ class ClientController
      */
     public function destroy(Client $client)
     {
+        $this->ensureUserHasClient($client);
+
         $client->delete();
         return to_route('app.index')->with([
             'message' => "{$client->name} vient d'être supprimé"

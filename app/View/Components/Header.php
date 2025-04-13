@@ -12,10 +12,10 @@ class Header extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public string $logoUrl = "/",
+        public string|null $logoUrl = null,
         public string $pageTitle = "Factulandar"
     ) {
-        //
+        $this->logoUrl = $logoUrl ?? "/";
     }
 
     /**
