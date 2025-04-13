@@ -14,7 +14,7 @@
             @error('name')
                 <span class="error">{{ $message }}</span>
             @enderror
-            <input type="text" name="new_name" value="{{ old('name', $client->name) }}" required>
+            <input type="text" name="name" value="{{ old('name', $client->name) }}" required>
         </label>
         <label>
             <span class="required">Calendrier du client</span>

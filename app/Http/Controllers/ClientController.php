@@ -68,7 +68,22 @@ class ClientController
      */
     public function update(Request $request, Client $client)
     {
-        //
+        $this->ensureUserHasClient($client);
+
+        $client_new_info = $request->validate([
+            "name" => "required|max:50",
+            "calendar_url" => "required|url:http,https",
+            "address" => "required|min:15"
+        ]);
+
+        $client->update($client_new_info);
+
+        return to_route('clients.edit', [
+            'client' => $client
+        ])
+            ->with([
+                'message' => "{$client['name']} a bien été modifié"
+            ]);
     }
 
     /**
