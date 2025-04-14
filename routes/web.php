@@ -8,7 +8,7 @@ use App\Http\Middleware\EnsureClientIsFromUser;
 use App\Http\Middleware\EnsureUserHasSociety;
 use Illuminate\Support\Facades\Route;
 
-Route::view("/", "index");
+Route::view("/", 'pages.index');
 
 Route::middleware("auth")->group(function () {
   // Account settings
@@ -32,8 +32,8 @@ Route::middleware("auth")->group(function () {
 
 Route::middleware("guest")->group(function () {
   // Account
-  Route::view("/login", "pages.login")->name("user.login");
-  Route::view("/register", "pages.register")->name("user.register");
+  Route::view("/login", 'pages.account.login')->name("user.login");
+  Route::view("/register", 'pages.account.register')->name("user.register");
   Route::post("/me/login", [UserController::class, "login"])->name("user.do_login");
   Route::post("/me/register", [UserController::class, "register"])->name("user.do_register");
 });

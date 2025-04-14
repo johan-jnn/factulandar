@@ -58,7 +58,7 @@ class ClientController
     public function edit(Client $client)
     {
         $this->ensureUserHasClient($client);
-        return view('pages.dashboard.client.manage', [
+        return view('pages.dashboard.client.edit', [
             'client' => $client,
         ]);
     }
@@ -96,17 +96,6 @@ class ClientController
         $client->delete();
         return to_route('app.index')->with([
             'message' => "{$client->name} vient d'être supprimé"
-        ]);
-    }
-
-    public function show_invoices(Client $client)
-    {
-        $this->ensureUserHasClient($client);
-
-        $invoices = $client->invoices();
-        return view('pages.dashboard.client.invoices', [
-            'client' => $client,
-            'invoices' => $invoices
         ]);
     }
 }

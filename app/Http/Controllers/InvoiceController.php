@@ -14,7 +14,7 @@ class InvoiceController
     {
         ClientController::ensureUserHasClient($client);
         $invoices = $client->invoices();
-        return view('pages.dashboard.client.invoices', [
+        return view('pages.dashboard.client.invoices.index', [
             'client' => $client,
             'invoices' => $invoices
         ]);
@@ -26,7 +26,7 @@ class InvoiceController
     public function create(Client $client)
     {
         ClientController::ensureUserHasClient($client);
-        
+
     }
 
     /**
