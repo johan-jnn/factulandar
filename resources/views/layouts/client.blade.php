@@ -21,7 +21,7 @@
             ],
             [
                 'label' => 'Factures',
-                'url' => route('client.invoices', [
+                'url' => route('invoices.index', [
                     'client' => $client,
                 ]),
             ],

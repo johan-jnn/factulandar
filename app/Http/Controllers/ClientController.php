@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class ClientController
 {
-    private function ensureUserHasClient(Client $client)
+    public static function ensureUserHasClient(Client $client)
     {
         abort_if($client->user_id !== Auth::user()->id, 404);
     }

@@ -25,10 +25,9 @@ Route::middleware("auth")->group(function () {
 
   // Clients
   Route::resource('/app/clients', ClientController::class)->except(['index']);
-  Route::get('/app/clients/{client}/invoices', [ClientController::class, 'show_invoices'])->name('client.invoices');
 
   // Invoices
-  Route::resource('/app/invoices', InvoiceController::class);
+  Route::resource('/app/clients/{client}/invoices', InvoiceController::class);
 });
 
 Route::middleware("guest")->group(function () {

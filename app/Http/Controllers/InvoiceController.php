@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use Illuminate\Http\Request;
 
 class InvoiceController
@@ -9,17 +10,23 @@ class InvoiceController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Client $client)
     {
-        return view('pages.invoices.index');
+        ClientController::ensureUserHasClient($client);
+        $invoices = $client->invoices();
+        return view('pages.dashboard.client.invoices', [
+            'client' => $client,
+            'invoices' => $invoices
+        ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Client $client)
     {
-        //
+        ClientController::ensureUserHasClient($client);
+        
     }
 
     /**
