@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->boolean('use_tva')->default(false);
+            $table->float('tav_ratio', 2)->default(0);
             $table->foreignId('society_id')->constrained('societies')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('client_id')->constrained('clients')->cascadeOnDelete()->cascadeOnUpdate();
         });

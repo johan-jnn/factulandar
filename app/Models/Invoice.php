@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Invoice extends Model
 {
     protected $fillable = [
-        "use_tva",
+        "tav_ratio",
         "society_id",
         "client_id",
         "name"
@@ -16,6 +16,11 @@ class Invoice extends Model
     public function items()
     {
         return $this->hasMany(InvoiceItem::class, "invoice_id");
+    }
+
+    public function society()
+    {
+        return $this->belongsTo(Society::class, "society_id");
     }
 
     public function number()

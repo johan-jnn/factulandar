@@ -4,6 +4,11 @@
 form {
 	max-width: 650px;
 	margin: 0 auto;
+	span.error {
+		font-size: 0.5em;
+		font-style: italic;
+		color: map-get($map: $colors, $key: "primary");
+	}
 
 	label {
 		gap: 0.25em;
@@ -11,11 +16,6 @@ form {
 
 		> span.required::after {
 			content: "*";
-			color: map-get($map: $colors, $key: "primary");
-		}
-		> span.error {
-			font-size: 0.5em;
-			font-style: italic;
 			color: map-get($map: $colors, $key: "primary");
 		}
 		&:not(.inline) {
@@ -40,7 +40,8 @@ form {
 				padding: 5px 10px;
 			}
 
-			> input {
+			> input,
+			> select {
 				border: none;
 				border-radius: 0;
 				background-color: transparent;

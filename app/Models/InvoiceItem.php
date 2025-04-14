@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class InvoiceItem extends Model
 {
     protected $fillable = [
-        "use_tva",
+        "tav_ratio",
         "title",
         "unit_price",
         "unit",

@@ -2,11 +2,10 @@
 
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\InvoiceItemController;
 use App\Http\Controllers\SocietyController;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\EnsureClientIsFromUser;
 use App\Http\Middleware\EnsureUserHasASociety;
-use App\Http\Middleware\EnsureUserHasSociety;
 use Illuminate\Support\Facades\Route;
 
 Route::view("/", 'pages.index');
@@ -30,6 +29,8 @@ Route::middleware("auth")->group(function () {
   // Invoices
   Route::resource('/app/clients/{client}/invoices', InvoiceController::class)
     ->middlewareFor(['create'], EnsureUserHasASociety::class);
+  
+  Route::resource('/invoices/{invoice}/items', InvoiceItemController::class)->except('show');
 });
 
 Route::middleware("guest")->group(function () {

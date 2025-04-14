@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Invoice;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class InvoiceController
 {
+    public static function EnsureInvoiceManagedByUser(Invoice $invoice)
+    {
+
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -52,16 +58,21 @@ class InvoiceController
     public function store(Request $request, Client $client)
     {
         $user = Auth::user();
-
         $invoice_data = $request->validate([
             'society_id' => [
                 'required',
-                'society_id' => Rule::exists('societies')->where('owner_id', $user->id)
+                Rule::exists('societies', 'id')->where('owner_id', $user->id)
             ],
-            'events' => 'array',
-            'use_tva' => 'required|boolean'
+            'tav_ratio' => 'required|decimal:0,2',
+            'name' => 'nullable|string|max:100',
+            'events' => 'required|array',
+            'groups' => 'array',
         ]);
         $invoice_data['client_id'] = $client->id;
+        abort(500, 'Not implemented');
+
+        $created_invoice = Invoice::create($invoice_data);
+
     }
 
     /**
