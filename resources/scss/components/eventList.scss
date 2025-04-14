@@ -1,0 +1,51 @@
+@use "sass:map";
+@use "../colors.scss" as *;
+
+.events {
+	display: grid;
+	grid: auto / 1fr;
+	gap: 1em;
+	max-height: 60vh;
+	width: 80%;
+	margin: 0 auto;
+	overflow-y: scroll;
+
+	.event-item {
+		display: grid;
+		grid: repeat(2, auto) / auto 1fr;
+		grid-template-areas:
+			"checker summary"
+			"checker footer";
+		gap: 1em 1.5em;
+		margin: 0;
+
+		align-content: center;
+		height: 100%;
+		width: 100%;
+		border-radius: 5px;
+		padding: 1em 1.5em;
+		font-weight: 500;
+
+		&:hover {
+			background-color: rgba(map-get($colors, "primary"), 0.25);
+		}
+
+		> input {
+			grid-area: checker;
+			width: 100%;
+		}
+		> .summary {
+			grid-area: summary;
+		}
+		> .footer {
+			grid-area: footer;
+			font-size: 0.75em;
+
+			> ul {
+				display: flex;
+				align-items: center;
+				gap: 1em;
+			}
+		}
+	}
+}

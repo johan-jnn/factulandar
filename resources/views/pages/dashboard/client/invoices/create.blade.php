@@ -42,12 +42,15 @@
                       events: [],
 
                       init() {
-                        this.calendar.events = this.calendar.events.map((data, i) => ({...data, id: i, exclude: false, grouped: false}));
+                        this.calendar.events = this.calendar.events.map((data, i) => ({...data, id: i, include: true, grouped: false}));
                         this.apply();
                       },
                       apply() {
-                        const {calendar, min_date, max_date, calendar_ranges, group, query} = this;
-
+                        let {calendar, min_date, max_date, calendar_ranges, group, query} = this;
+                        query = query.toLowerCase();
+                        if(min_date) min_date += "T00:00";
+                        if(max_date) max_date += "T23:59";
+                        
                         const events = group ? Object.values(this.calendar.events.reduce((grouped, item) => {
                           const group = grouped[item.summary];
                           if(group) {
@@ -55,24 +58,28 @@
                             if(item.start < group.start) group.start = item.start;
                             if(item.end > group.end) group.end = item.end;
                             group.events.push(item);
-                          } else grouped[item.summary] = {
-                            ...item,
-                            grouped: true,
-                            events: [item]
-                          };
+                          } else {
+                            grouped[item.summary] = {
+                              ...item,
+                              grouped: true,
+                              events: [item]
+                            };
+                            delete grouped[item.summary].id;
+                          }
                           return grouped;
                         }, {})) : this.calendar.events;
 
-                        const searchQ = query.toLowerCase();
-                        this.events = this.calendar.events.filter((event) => {
+                        this.events = events.filter((event) => {
                           if(!calendar_ranges[0] || event.start < calendar_ranges[0]) calendar_ranges[0] = event.start;
                           if(!calendar_ranges[1] || event.end > calendar_ranges[1]) calendar_ranges[1] = event.end;
-
-                          if(query && (
-                            event.summary.toLowerCase().includes(searchQ)
-                            || event.description.toLowerCase().includes(searchQ)
+                          
+                          if(query && !(
+                            event.summary.toLowerCase().includes(query)
+                            || event.description?.toLowerCase().includes(query)
                           )) return false;
 
+                          if(min_date && event.start < min_date) return false;
+                          if(max_date && event.end > max_date) return false;
 
                           return true;
                         });
@@ -80,7 +87,9 @@
                         console.log(this.events);
                       }
                     }'
-                    method="post" style="margin: 0 auto">
+                    method="post"
+                    class="invoice-creator"
+                    >
                     @csrf
                     <h3>Filtres</h3>
                     <menu type="toolbar" class="filterer" @change="apply()">
@@ -98,7 +107,7 @@
                         </div>
                         <label class="inline">
                             <span>Contient</span>
-                            <input type="text" x-model="query" name="query"
+                            <input type="text" x-model="query" name="query" @input="apply()"
                                 placeholder="Inclure uniquement les événements contenant ce texte dans le titre et/ou description.">
                         </label>
 
@@ -123,20 +132,28 @@
                     <h3>Evénements</h3>
                     <ul class="events">
                         <template x-for="(event, _) in events">
-                            <li class="event">
-                                <template x-if="event.grouped" x-for="(e, _) in event.events">
-                                  <input type="hidden" :name="`events[${event.id}].use`" :value="!event.exclude">
-                                </template>
-                                
-                                <template x-if="!event.grouped">
-                                    <input type="hidden" :name="`events[${event.id}].use`">
+                            <li>
+                                <template x-if="event.include">
+                                    <template x-for="(e, _) in event.events || [event]">
+                                        <input type="hidden" :name="`events[${e.id}].use`">
+                                    </template>
                                 </template>
 
-                                <label>
-                                  <input type="checkbox" :value="!event.exclude">
-                                  <span x-text="event.summary"></span>
+                                <label class="event-item">
+                                    <input type="checkbox" x-model="event.include">
+                                    <div class="summary">
+                                        <h4 x-text="event.summary"></h4>
+                                        <p x-text="event.description"></p>
+                                    </div>
+                                    <div class="footer">
+                                        <ul>
+                                            <li>Heures: <span x-text="event.totalHours"></span>h.</li>
+                                            <li>Du <span x-text="new Date(event.start).toLocaleString('fr-FR')"></span> au
+                                                <span x-text="new Date(event.end).toLocaleString('fr-FR')"></span>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </label>
-
                             </li>
                         </template>
                     </ul>
