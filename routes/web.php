@@ -5,6 +5,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\SocietyController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\EnsureClientIsFromUser;
+use App\Http\Middleware\EnsureUserHasASociety;
 use App\Http\Middleware\EnsureUserHasSociety;
 use Illuminate\Support\Facades\Route;
 
@@ -27,7 +28,8 @@ Route::middleware("auth")->group(function () {
   Route::resource('/app/clients', ClientController::class)->except(['index']);
 
   // Invoices
-  Route::resource('/app/clients/{client}/invoices', InvoiceController::class);
+  Route::resource('/app/clients/{client}/invoices', InvoiceController::class)
+    ->middlewareFor(['create'], EnsureUserHasASociety::class);
 });
 
 Route::middleware("guest")->group(function () {

@@ -6,10 +6,8 @@ form {
 	margin: 0 auto;
 
 	label {
-		width: 100%;
-		display: grid;
 		gap: 0.25em;
-		margin-top: 2em;
+		cursor: pointer;
 
 		> span.required::after {
 			content: "*";
@@ -20,6 +18,55 @@ form {
 			font-style: italic;
 			color: map-get($map: $colors, $key: "primary");
 		}
+		&:not(.inline) {
+			width: 100%;
+			display: grid;
+			margin-top: 2em;
+		}
+
+		&.inline {
+			display: inline-flex;
+			align-items: center;
+			width: max-content;
+
+			transition: box-shadow 0.25s;
+
+			&:hover {
+				box-shadow: inset 0 0 5px
+					rgba($color: map-get($colors, "dark"), $alpha: 0.25);
+			}
+
+			> span {
+				padding: 5px 10px;
+			}
+
+			> input {
+				border: none;
+				border-radius: 0;
+				background-color: transparent;
+			}
+
+			&:not(.inline-label-group > *) {
+				@extend .inline-label-group;
+			}
+		}
+	}
+	.inline-label-group {
+		display: flex;
+		align-items: center;
+		gap: 0.25em;
+		border: 1px solid map-get($map: $colors, $key: "dark");
+		border-radius: 5px;
+		overflow: hidden;
+
+		> label {
+			&:not(:first-of-type) > span {
+				border-left: 1px solid map-get($map: $colors, $key: "primary");
+			}
+			&:not(:last-of-type) > input {
+				margin-right: 10px;
+			}
+		}
 	}
 
 	input,
@@ -29,9 +76,17 @@ form {
 		border-radius: 5px;
 		border: 0.25px solid map-get($map: $colors, $key: "dark");
 		outline: none;
+		background-color: map-get($map: $colors, $key: "light");
 
 		&:focus {
 			border-color: map-get($map: $colors, $key: "primary");
+		}
+	}
+
+	input {
+		&[type="checkbox"] {
+			margin-right: 1em;
+			cursor: pointer;
 		}
 	}
 
@@ -69,5 +124,13 @@ form {
 		> a {
 			font-size: 0.75em;
 		}
+	}
+
+	.filterer {
+		display: flex;
+		align-items: center;
+		justify-content: stretch;
+		flex-wrap: wrap;
+		gap: 1em 0.5em;
 	}
 }

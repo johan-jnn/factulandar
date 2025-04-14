@@ -8,12 +8,18 @@ class Invoice extends Model
 {
     protected $fillable = [
         "use_tva",
-        "user_id",
-        "client_id"
+        "society_id",
+        "client_id",
+        "name"
     ];
 
     public function items()
     {
         return $this->hasMany(InvoiceItem::class, "invoice_id");
+    }
+
+    public function number()
+    {
+        return "{$this->society_id}-{$this->client_id}-{$this->id}";
     }
 }

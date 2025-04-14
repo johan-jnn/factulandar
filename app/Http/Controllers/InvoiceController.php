@@ -27,6 +27,21 @@ class InvoiceController
     {
         ClientController::ensureUserHasClient($client);
 
+        try {
+            $calendar = $client->calendar();
+        } catch (\Throwable $th) {
+            return to_route('clients.edit', [
+                'client' => $client
+            ])->withErrors([
+                        'message' => "Le calendrier de ce client n'est pas valide.",
+                        'calendar_url' => "Invalid calendar URL. Please verify it."
+                    ]);
+        }
+
+        return view('pages.dashboard.client.invoices.create', [
+            'client' => $client,
+            'calendar' => $calendar
+        ]);
     }
 
     /**
