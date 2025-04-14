@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class InvoiceController
 {
@@ -47,9 +49,19 @@ class InvoiceController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Client $client)
     {
-        //
+        $user = Auth::user();
+
+        $invoice_data = $request->validate([
+            'society_id' => [
+                'required',
+                'society_id' => Rule::exists('societies')->where('owner_id', $user->id)
+            ],
+            'events' => 'array',
+            'use_tva' => 'required|boolean'
+        ]);
+        $invoice_data['client_id'] = $client->id;
     }
 
     /**

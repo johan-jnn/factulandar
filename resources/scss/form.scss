@@ -50,6 +50,50 @@ form {
 				@extend .inline-label-group;
 			}
 		}
+
+		&:not(.inline):has(> input[type="checkbox"]:not(.force-default)) {
+			display: flex;
+			align-items: center;
+			gap: 1em;
+
+			> input {
+				appearance: none;
+				aspect-ratio: 2 / 1;
+				position: relative;
+				margin: 0.5em 0;
+				border-radius: 999px;
+				cursor: pointer;
+
+				$padding: 5%;
+
+				&::before {
+					content: "";
+					position: absolute;
+					top: 50%;
+					left: $padding;
+					translate: 0 -50%;
+
+					background-color: rgba(map-get($map: $colors, $key: "dark"), 0.5);
+					height: calc(100% - $padding * 3);
+					aspect-ratio: 1 / 1;
+					border-radius: 50%;
+
+					transition: 0.25s;
+				}
+				&:active {
+					&::before {
+						aspect-ratio: 1.25 / 1;
+					}
+				}
+				&:checked {
+					&::before {
+						left: calc(100% - $padding);
+						translate: -100% -50%;
+						background-color: map-get($map: $colors, $key: "primary");
+					}
+				}
+			}
+		}
 	}
 	.inline-label-group {
 		display: flex;
@@ -75,7 +119,7 @@ form {
 		padding: 1em 0.5em;
 		font-family: inherit;
 		border-radius: 5px;
-		border: 0.25px solid map-get($map: $colors, $key: "dark");
+		border: 0.25px solid rgba(map-get($map: $colors, $key: "dark"), 0.75);
 		outline: none;
 		background-color: map-get($map: $colors, $key: "light");
 

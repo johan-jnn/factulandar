@@ -140,7 +140,7 @@
                                 </template>
 
                                 <label class="event-item">
-                                    <input type="checkbox" x-model="event.include">
+                                    <input type="checkbox" x-model="event.include" class="force-default">
                                     <div class="summary">
                                         <h4 x-text="event.summary"></h4>
                                         <p x-text="event.description"></p>
@@ -166,6 +166,12 @@
                                     {{ $society->name }}</option>
                             @endforeach
                         </select>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="use_tva">
+                      <div>
+                        <span>Utiliser la TVA</span>
+                      </div>
                     </label>
                     <div class="actions">
                         <button type="submit">Générer la facture</button>
