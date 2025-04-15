@@ -5,6 +5,7 @@ namespace App;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use stdClass;
 
 class EventSelectorHandler
 {
@@ -15,50 +16,19 @@ class EventSelectorHandler
     {
     }
 
-    public static function eventToInvoiceLineData(array $event)
-    {
-        $validator = Validator::make($event, [
-            'summary' => 'required|string',
-            'events' => 'array|present_if:grouped,true',
-            'description' => 'string',
-            'totalHours' => 'decimal:0,2|min:0'
-        ]);
-
-        if ($validator->fails())
-            throw back()->withErrors($validator);
-        $event = $validator->validated();
-
-        $line = [
-            'title' => $event['summary'],
-            'unit' => 'h',
-            'unit_price' => 0,
-            'amount' => $event['totalHours'],
-            'description' => $event['description']
-        ];
-
-        if ($event['grouped']) {
-            $used_events_len = count($event['events']);
-            $line['description'] .= " | $used_events_len événements";
-        }
-
-        return $line;
-    }
-
     public function add(Request $request)
     {
         $validated = $request->validate([
-            'events' => 'array|present_if:groups,null',
-            'groups' => 'array|present_if:events,null',
+            'events' => 'required|array',
+            'events.*.title' => 'required|string',
+            'events.*.description' => 'string',
+            'events.*.amount' => 'required|decimal:0,2|min:0',
+            'events.*.unit' => 'required|string|max:5',
+            'events.*.unit_price' => 'required|decimal:0,2|min:0',
+            'events.*.tav_ratio' => 'decimal:0,2|min:0',
         ]);
 
-        $lines = collect($validated['events'] ?? $validated['groups'])
-            ->map(function ($str) {
-                $item = json_decode($str);
-                return EventSelectorHandler::EventToInvoiceLineData($item);
-            });
-
-        $invoice_lines = $this->invoice->items()->createMany($lines);
-        return $invoice_lines;
+        return $this->invoice->items()->createMany($validated['events']);
     }
     public function set(Request $request)
     {

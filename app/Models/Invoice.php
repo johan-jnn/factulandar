@@ -15,12 +15,17 @@ class Invoice extends Model
 
     public function items()
     {
-        return $this->hasMany(InvoiceItem::class, "invoice_id");
+        return $this->hasMany(InvoiceItem::class);
     }
 
     public function society()
     {
-        return $this->belongsTo(Society::class, "society_id");
+        return $this->belongsTo(Society::class);
+    }
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
     }
 
     public function number()

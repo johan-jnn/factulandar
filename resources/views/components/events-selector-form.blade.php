@@ -4,7 +4,7 @@
       calendar_ranges: [null, null],
       min_date: null,
       max_date: null,
-      group: {{ old('group') === "on" ? "true" : "false" }},
+      group: {{ old('group') === 'on' ? 'true' : 'false' }},
       query: "",
       events: [],
 
@@ -43,9 +43,9 @@
             grouped[item.summary] = {
               ...item,
               grouped: true,
+              id: Object.keys(grouped).length,
               events: [item]
             };
-            delete grouped[item.summary].id;
           }
           return grouped;
         }, {})) : this.calendar.events.filter(pass_filters);
@@ -54,7 +54,7 @@
           if(!calendar_ranges[0] || event.start < calendar_ranges[0]) calendar_ranges[0] = event.start;
           if(!calendar_ranges[1] || event.end > calendar_ranges[1]) calendar_ranges[1] = event.end;
         });
-
+        console.log(events);
         this.events = events;
       }
     }'
@@ -109,13 +109,18 @@
     <ul class="events">
         <template x-for="(event, _) in events">
             <li>
-                <template x-if="event.include && !event.grouped">
-                    <template x-for="(e, _) in event.events || [event]">
-                        <input type="hidden" :name="`events[${e.id}]`" :value="JSON.stringify(event)">
-                    </template>
-                </template>
-                <template x-if="event.include && event.grouped">
-                    <input type="hidden" name="groups[]" :value="JSON.stringify(event)">
+                <template x-if="event.include">
+                    <span hidden>
+                        <input type="hidden" :name="`events[${event.id}][title]`" :value="event.summary">
+                        <input type="hidden" :name="`events[${event.id}][unit]`" value="h">
+                        <input type="hidden" :name="`events[${event.id}][unit_price]`" value="0">
+                        <input type="hidden" :name="`events[${event.id}][amount]`" :value="event.totalHours">
+                        <input type="hidden" :name="`events[${event.id}][description]`"
+                            :value="(
+                                event.grouped ? `${event.description} | ${event.events.length} éléments` : event
+                                .description
+                            )">
+                    </span>
                 </template>
 
                 <label class="event-item">

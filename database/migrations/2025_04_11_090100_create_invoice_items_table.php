@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->timestamps();
             $table->string("title");
             $table->string("description")->nullable();
-            $table->float('tav_ratio', 0)->nullable();
+            $table->float('tav_ratio', 0)->unsigned()->nullable();
             $table->float("unit_price", 2)->unsigned();
             $table->unsignedInteger("amount")->default(1);
             $table->string("unit", 5);

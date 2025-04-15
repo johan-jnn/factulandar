@@ -13,17 +13,42 @@
             </tr>
         </thead>
         <tbody>
-          @foreach ($invoices->orderBy('created_at') as $invoice)
-            <tr>
-              <td>
-                @isset($invoice->name)
-                  {{ $invoice->name }} (n° {{ $invoice->number() }})
-                @else
-                  n° {{ $invoice->number() }}
-                @endisset
-              </td>
-            </tr>
-          @endforeach
+            @foreach ($invoices->orderBy('created_at')->get() as $invoice)
+                <tr>
+                    <td>
+                        @isset($invoice->name)
+                            {{ $invoice->name }} (n° {{ $invoice->number() }})
+                        @else
+                            n° {{ $invoice->number() }}
+                        @endisset
+                    </td>
+                    <td>
+                        {{ $invoice->created_at->format('d/m/Y') }}
+                    </td>
+                    <td>
+                        @if (!$invoice->validated)
+                            <a
+                                href="{{ route('invoices.edit', [
+                                    'client' => $client,
+                                    'invoice' => $invoice,
+                                ]) }}">
+                                <button type="button" title="Modifier la facture">
+                                    📝
+                                </button>
+                            </a>
+                        @endif
+                        <a
+                            href="{{ route('invoices.show', [
+                                'client' => $client,
+                                'invoice' => $invoice,
+                            ]) }}">
+                            <button type="button" title="Exporter la facture">
+                                📤️
+                            </button>
+                        </a>
+                    </td>
+                </tr>
+            @endforeach
         </tbody>
         <tfoot>
             <tr>

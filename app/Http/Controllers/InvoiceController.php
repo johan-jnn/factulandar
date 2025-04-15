@@ -58,6 +58,8 @@ class InvoiceController
      */
     public function store(Request $request, Client $client)
     {
+        ClientController::ensureUserHasClient($client);
+
         $user = Auth::user();
         $invoice_data = $request->validate([
             'society_id' => [
@@ -88,19 +90,26 @@ class InvoiceController
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Client $client, Invoice $invoice)
     {
-        //
+        ClientController::ensureUserHasClient($client);
+
+        return view('pages.dashboard.client.invoices.edit', [
+            'invoice' => $invoice
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Client $client, Invoice $invoice)
     {
-        //
-    }
+        ClientController::ensureUserHasClient($client);
 
+        return view('pages.dashboard.client.invoices.edit', [
+            'invoice' => $invoice
+        ]);
+    }
     /**
      * Update the specified resource in storage.
      */

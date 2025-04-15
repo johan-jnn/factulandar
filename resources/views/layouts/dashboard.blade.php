@@ -129,6 +129,7 @@
                 @foreach ($clients as $client)
                     <li @class([
                         'selected' => $client->id == $selected_client?->id,
+                        'disable-click' => isset($clientClickable) ? !$clientClickable : true,
                     ]) data-caption="{{ $client->name }}">
                         <a
                             href="{{ route('clients.show', [
