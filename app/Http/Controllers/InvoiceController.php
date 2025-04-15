@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\EventSelectorHandler;
 use App\Models\Client;
 use App\Models\Invoice;
 use Auth;
@@ -65,14 +66,23 @@ class InvoiceController
             ],
             'tav_ratio' => 'required|decimal:0,2',
             'name' => 'nullable|string|max:100',
-            'events' => 'required|array',
-            'groups' => 'array',
         ]);
         $invoice_data['client_id'] = $client->id;
-        abort(500, 'Not implemented');
 
         $created_invoice = Invoice::create($invoice_data);
+        new EventSelectorHandler($created_invoice)->add($request);
 
+        // Change the client's prefered society to the one created the invoice
+        $client->prefered_society = $created_invoice->society_id;
+        $client->save();
+
+        return to_route('invoices.edit', [
+            'client' => $client,
+            'invoice' => $created_invoice
+        ])
+            ->with([
+                'message' => "Votre facture a bien été créée."
+            ]);
     }
 
     /**

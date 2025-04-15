@@ -4,7 +4,7 @@
       calendar_ranges: [null, null],
       min_date: null,
       max_date: null,
-      group: false,
+      group: {{ old('group') === "on" ? "true" : "false" }},
       query: "",
       events: [],
 
@@ -109,7 +109,7 @@
     <ul class="events">
         <template x-for="(event, _) in events">
             <li>
-                <template x-if="event.include">
+                <template x-if="event.include && !event.grouped">
                     <template x-for="(e, _) in event.events || [event]">
                         <input type="hidden" :name="`events[${e.id}]`" :value="JSON.stringify(event)">
                     </template>
