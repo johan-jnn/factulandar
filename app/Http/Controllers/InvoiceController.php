@@ -106,6 +106,11 @@ class InvoiceController
     {
         ClientController::ensureUserHasClient($client);
 
+        if ($invoice->validated)
+            return $this->show($client, $invoice)->with([
+                'message' => 'La facture a été validée. Elle ne peut plus être modifiée.'
+            ]);
+
         return view('pages.dashboard.client.invoices.edit', [
             'invoice' => $invoice
         ]);

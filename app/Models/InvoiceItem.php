@@ -21,4 +21,17 @@ class InvoiceItem extends Model
     {
         return $this->belongsTo(Invoice::class, "invoice_id");
     }
+    public function price_ht()
+    {
+        return $this->unit_price * $this->amount;
+    }
+    public function price_ttc()
+    {
+        return $this->price_ht() * (1 + $this->tav());
+    }
+
+    public function tav(): float
+    {
+        return $this->tav_ratio ?? $this->invoice->tav_ratio;
+    }
 }

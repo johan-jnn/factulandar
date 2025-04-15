@@ -32,4 +32,13 @@ class Invoice extends Model
     {
         return "{$this->society_id}-{$this->client_id}-{$this->id}";
     }
+
+    public function price_ht()
+    {
+        return $this->items->sum(fn($line) => $line->price_ht());
+    }
+    public function price_ttc()
+    {
+        return $this->items->sum(fn($line) => $line->price_ttc());
+    }
 }

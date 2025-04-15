@@ -1,0 +1,62 @@
+@use "sass:map";
+@use "../colors.scss" as *;
+
+body:has(.invoice-renderer) {
+	.invoice-renderer {
+		> .page {
+			> h2 {
+				text-align: center;
+			}
+
+			> .address {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 1.5em;
+			}
+
+			table {
+				max-width: unset;
+				width: 100%;
+				th {
+					text-wrap: nowrap;
+				}
+
+				td:first-of-type {
+					text-align: left;
+
+					> p {
+						font-size: 0.65em;
+						margin-top: 0.25em;
+						font-style: italic;
+						color: rgba($color: map-get($colors, "dark"), $alpha: 0.5);
+					}
+				}
+			}
+		}
+	}
+
+	@media print {
+		@page {
+			size: A4;
+			margin: 0;
+		}
+		// Only display invoice renderer
+		:not(.invoice-renderer):not(.invoice-renderer *):not(
+				:has(.invoice-renderer)
+			) {
+			display: none;
+		}
+		&,
+		:has(.invoice-renderer) {
+			display: initial;
+			padding: 0 !important;
+			margin: 0 !important;
+			background-color: transparent !important;
+		}
+
+		.invoice-renderer {
+			font-size: 12px;
+		}
+	}
+}

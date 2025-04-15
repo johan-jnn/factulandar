@@ -12,7 +12,7 @@ class InvoiceRenderer extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(public Invoice $invoice)
+    public function __construct(public Invoice $invoice, public bool $editable = false)
     {
         //
     }
