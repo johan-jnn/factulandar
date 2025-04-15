@@ -114,7 +114,7 @@
                         <input type="hidden" :name="`events[${e.id}]`" :value="JSON.stringify(event)">
                     </template>
                 </template>
-                <template x-if="event.grouped">
+                <template x-if="event.include && event.grouped">
                     <input type="hidden" name="groups[]" :value="JSON.stringify(event)">
                 </template>
 
