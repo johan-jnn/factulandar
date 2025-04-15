@@ -15,6 +15,13 @@ body:has(.invoice-renderer) {
 				gap: 1.5em;
 			}
 
+			> section {
+				padding: {
+					left: 0;
+					right: 0;
+				}
+			}
+
 			table {
 				max-width: unset;
 				width: 100%;
@@ -32,6 +39,14 @@ body:has(.invoice-renderer) {
 						color: rgba($color: map-get($colors, "dark"), $alpha: 0.5);
 					}
 				}
+			}
+
+			> footer {
+				margin-top: 2em;
+				padding: 1em 0;
+				font-size: 0.75em;
+				color: rgba($color: map-get($colors, "dark"), $alpha: 0.85);
+        font-style: italic;
 			}
 		}
 	}

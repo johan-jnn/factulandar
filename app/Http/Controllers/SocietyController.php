@@ -29,7 +29,8 @@ class SocietyController
     {
         $society_fillables = $request->validate([
             "name" => "required|max:50",
-            "address" => "required|min:15"
+            "address" => "required|min:15",
+            "paiement_terms" => "required|min:10"
         ]);
 
         $society_fillables["owner_id"] = Auth::user()->id;
@@ -47,11 +48,14 @@ class SocietyController
 
         $updated_society_info = $request->validate([
             "new_name" => "required|max:50",
-            "new_address" => "required|min:15"
+            "new_address" => "required|min:15",
+            "new_paiement_terms" => "required|min:10"
+
         ]);
         $society->update([
             "name" => $updated_society_info["new_name"],
             "address" => $updated_society_info["new_address"],
+            "paiement_terms" => $updated_society_info["new_paiement_terms"],
         ]);
 
         return to_route('societies.index')->with([

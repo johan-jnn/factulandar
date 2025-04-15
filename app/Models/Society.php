@@ -10,5 +10,6 @@ class Society extends Model
         "name",
         "address",
         "owner_id",
+        "paiement_terms"
     ];
 }

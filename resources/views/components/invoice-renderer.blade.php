@@ -60,5 +60,8 @@
                 </tfoot>
             </table>
         </section>
+        <footer>
+            <p>{{ $invoice->society->paiement_terms }}</p>
+        </footer>
     </div>
 </section>

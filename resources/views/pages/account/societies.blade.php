@@ -39,6 +39,13 @@
                     @enderror
                     <textarea name="address" required>{{ old('address') }}</textarea>
                 </label>
+                <label>
+                    <span class="required">Termes de paiement</span>
+                    @error('paiement_terms')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
+                    <textarea name="paiement_terms" required>{{ old('paiement_terms') }}</textarea>
+                </label>
 
                 <div class="actions">
                     <button type="submit">Créer</button>
@@ -51,7 +58,8 @@
             x-data='{
           olds: {
             name: "{{ old('new_name') }}",
-            address: "{{ old('new_address') }}"
+            address: `{{ old('new_address') }}`,
+            paiement_terms: `{{ old('new_paiement_terms') }}`
           }
         }'>
             @php
@@ -78,6 +86,13 @@
                         <span class="error" x-show="!!olds">{{ $message }}</span>
                     @enderror
                     <textarea name="new_address" x-text='olds?.address || society_edition?.address' required></textarea>
+                </label>
+                <label>
+                    <span class="required">Termes de paiement</span>
+                    @error('new_paiement_terms')
+                        <span class="error" x-show="!!olds">{{ $message }}</span>
+                    @enderror
+                    <textarea name="new_paiement_terms" x-text='olds?.paiement_terms || society_edition?.paiement_terms' required></textarea>
                 </label>
 
                 <div class="actions">
