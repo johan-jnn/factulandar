@@ -17,10 +17,13 @@ class EventSelectorHandler
 
     public static function eventToInvoiceLineData(array $event)
     {
-        // todo - finish validator
         $validator = Validator::make($event, [
-            'summary' => 'required|string'
+            'summary' => 'required|string',
+            'events' => 'array|present_if:grouped,true',
+            'description' => 'string',
+            'totalHours' => 'decimal:0,2|min:0'
         ]);
+
         if ($validator->fails())
             throw back()->withErrors($validator);
         $event = $validator->validated();
