@@ -33,6 +33,13 @@
                     <input type="text" name="name" value="{{ old('name') }}" required>
                 </label>
                 <label>
+                    @error('invoices_no_format')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
+                    <span>Format des numéros de factures</span>
+                    <input type="text" name="invoices_no_format" value="{{ old('invoices_no_format') }}">
+                </label>
+                <label>
                     <span class="required">Addresse postale</span>
                     @error('address')
                         <span class="error">{{ $message }}</span>
@@ -59,7 +66,8 @@
           olds: {
             name: "{{ old('new_name') }}",
             address: `{{ old('new_address') }}`,
-            paiement_terms: `{{ old('new_paiement_terms') }}`
+            paiement_terms: `{{ old('new_paiement_terms') }}`,
+            invoices_no_format: `{{ old('invoices_no_format') }}`
           }
         }'>
             @php
@@ -79,6 +87,13 @@
                     @enderror
                     <span class="required">Nom de la société</span>
                     <input type="text" name="new_name" :value='olds?.name || society_edition?.name' required>
+                </label>
+                <label>
+                    @error('new_invoices_no_format')
+                        <span class="error"x-show="!!olds">{{ $message }}</span>
+                    @enderror
+                    <span>Format des numéros de factures</span>
+                    <input type="text" name="new_invoices_no_format" :value='olds?.invoices_no_format || society_edition?.invoices_no_format'>
                 </label>
                 <label>
                     <span class="required">Addresse postale</span>

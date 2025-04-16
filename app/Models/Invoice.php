@@ -49,7 +49,7 @@ class Invoice extends Model
 
     public function number()
     {
-        return "{$this->society_id}-{$this->client_id}-{$this->id}";
+        return $this->society->get_invoice_number($this);
     }
 
     public function price_ht()
