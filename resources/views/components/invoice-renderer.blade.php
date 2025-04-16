@@ -5,7 +5,7 @@
         return Object.values(this.lines).reduce((v, item) => {
             return (
                 v 
-                + item.unit_price * item.amount * (1 + (item.tav_ratio ?? {{ $invoice->tav_ratio }}) / 100 * taxes)
+                + item.unit_price * item.amount * (1 + (item.tav_ratio ?? {{ $invoice->tav_ratio }}) * taxes)
             )
         }, 0);
     },
@@ -109,14 +109,16 @@
                             <td>
                                 <div>
                                     <span contenteditable="{{ $contenteditable }}"
-                                        aria-placeholder="{{ $invoice->tav * 100 }}"
+                                        aria-placeholder="{{ $invoice->tav_ratio * 100 }}"
                                         x-data='{value:0}'x-modelable="value"
                                         x-model="lines['{{ $line->id }}'].tav_ratio"
                                         @input='
                                             value = parseFloat($el.innerText)/100;
                                             if(isNaN(value)) value = null;
                                         '>
-                                        {{ $line->tav() * 100 }}
+                                        @isset($line->tav_ratio)
+                                            {{ $line->tav() * 100 }}
+                                        @endisset
                                     </span>
                                     %
                                 </div>
@@ -133,7 +135,7 @@
                             <td x-data="{ line: lines['{{ $line->id }}'] }">
                                 @if ($editable)
                                     <span
-                                        x-text='(line.unit_price * line.amount * (1 + (line.tav_ratio ?? {{ $invoice->tav_ratio }}) / 100)).toFixed(2)'>
+                                        x-text='(line.unit_price * line.amount * (1 + (line.tav_ratio ?? {{ $invoice->tav_ratio }}))).toFixed(2)'>
                                     </span>
                                 @else
                                     <span>{{ $line->price_ttc() }}</span>
@@ -160,22 +162,31 @@
                             <td colspan="6">
                                 <ul>
                                     <li>
+                                        <a
+                                            href="{{ route('invoices.show', [
+                                                'client' => $invoice->client,
+                                                'invoice' => $invoice,
+                                            ]) }}">
+                                            <button type="button">
+                                                Afficher la facture finale
+                                            </button>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <hr data-vertical="">
+                                    </li>
+                                    <li>
                                         <form action="{{ route('items.updateAll') }}" method="post">
                                             @csrf
                                             @method('put')
                                             <template x-for="(item, id) in lines">
                                                 <template x-for="(data, key) in item">
-                                                    <template x-if="data !== null">
-                                                        <input type="hidden" :name="`items[${id}][${key}]`"
-                                                            :value="data">
-                                                    </template>
+                                                    <input type="hidden" :name="`items[${id}][${key}]`"
+                                                        :value="data">
                                                 </template>
                                             </template>
                                             <button type="submit">Sauvegarder les modifications</button>
                                         </form>
-                                    </li>
-                                    <li>
-                                        <hr data-vertical="">
                                     </li>
                                     <li>
                                         <form action="{{ route('items.blank') }}" method="post">
