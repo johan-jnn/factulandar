@@ -111,11 +111,11 @@
             <li>
                 <template x-if="event.include">
                     <span hidden>
-                        <input type="hidden" :name="`events[${event.id}][title]`" :value="event.summary">
-                        <input type="hidden" :name="`events[${event.id}][unit]`" value="h">
-                        <input type="hidden" :name="`events[${event.id}][unit_price]`" value="0">
-                        <input type="hidden" :name="`events[${event.id}][amount]`" :value="event.totalHours">
-                        <input type="hidden" :name="`events[${event.id}][description]`"
+                        <input type="hidden" :name="`items[${event.id}][title]`" :value="event.summary">
+                        <input type="hidden" :name="`items[${event.id}][unit]`" value="h">
+                        <input type="hidden" :name="`items[${event.id}][unit_price]`" value="0">
+                        <input type="hidden" :name="`items[${event.id}][amount]`" :value="event.totalHours">
+                        <input type="hidden" :name="`items[${event.id}][description]`"
                             :value="(
                                 event.grouped ? `${event.description} | ${event.events.length} éléments` : event
                                 .description

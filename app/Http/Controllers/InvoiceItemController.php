@@ -44,6 +44,11 @@ class InvoiceItemController
         return $this->to_edit($invoice);
     }
 
+    public function updateAll(Request $request)
+    {
+
+    }
+
     /**
      * Store a newly created resource in storage.
      */

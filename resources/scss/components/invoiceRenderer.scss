@@ -14,10 +14,6 @@ body:has(.invoice-renderer) {
 					&.force-empty {
 						&::before {
 							content: attr(aria-placeholder);
-							position: absolute;
-							top: 50%;
-							left: 5px;
-							translate: 0 -50%;
 							opacity: 0.5;
 
 							pointer-events: none;

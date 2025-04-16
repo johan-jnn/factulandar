@@ -32,6 +32,7 @@ Route::middleware("auth")->group(function () {
   
   Route::resource('/invoices/items', InvoiceItemController::class)->only(['store', 'update', 'destroy']);
   Route::post('/invoices/items/blank', [InvoiceItemController::class,'store_blank'])->name('items.blank');
+  Route::put('/invoices/items', [InvoiceItemController::class,'updateAll'])->name('items.updateAll');
 });
 
 Route::middleware("guest")->group(function () {
