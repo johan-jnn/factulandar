@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class InvoiceItemController
 {
@@ -46,7 +48,29 @@ class InvoiceItemController
 
     public function updateAll(Request $request)
     {
+        $items_entries = $request->validate([
+            'items' => 'required|array',
+            'items.*.title' => 'required|string',
+            'items.*.description' => 'nullable|string',
+            'items.*.amount' => 'required|decimal:0,2|min:0',
+            'items.*.unit' => 'required|string|max:5',
+            'items.*.unit_price' => 'required|decimal:0,2|min:0',
+            'items.*.tav_ratio' => 'nullable|decimal:0,2|min:0',
+        ]);
+        $items = collect($items_entries['items'])->map(function ($data, $id) {
+            /**
+             * @var InvoiceItem
+             */
+            $item = InvoiceItem::find($id);
+            InvoiceItemController::userHasAccessToItem($item);
+            
+            $item->update($data);
+            return $item;
+        });
 
+        return $this->to_edit($items->first()->invoice)->with([
+            'message' => "Les éléments ont bien été modifiés."
+        ]);
     }
 
     /**

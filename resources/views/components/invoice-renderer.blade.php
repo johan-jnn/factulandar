@@ -150,14 +150,14 @@
                                 <ul>
                                     <li>
                                         <form
-                                            action="{{ route('items.update', [
-                                                'item' => $line,
-                                            ]) }}"
+                                            action="{{ route('items.updateAll') }}"
                                             method="post">
+                                            @csrf
+                                            @method('put')
                                             <template x-for="(item, id) in lines">
                                                 <template x-for="(data, key) in item">
                                                     <input type="hidden" :name="`items[${id}][${key}]`"
-                                                        :value="data">
+                                                        :value="data" x-if="data !== null">
                                                 </template>
                                             </template>
                                             <button type="submit">Sauvegarder les modifications</button>
