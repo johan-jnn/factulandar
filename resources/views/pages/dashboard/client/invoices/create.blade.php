@@ -52,11 +52,11 @@
                             </select>
                         </label>
                         <label>
-                            <span class="required">Taux de TVA (ex: 20% = 0.20)</span>
+                            <span class="required">TVA (% / 100)</span>
                             @error('tav_ratio')
                                 <span class="error">{{ $message }}</span>
                             @enderror
-                            <input type="number" name="tav_ratio" step="0.01" value="0" min="0" required>
+                            <input type="number" name="tav_ratio" step="0.01" value="0" min="0" value="{{ old('tav_ratio') }}" required>
                         </label>
                         <label style="width: fit-content;" @change="apply()">
                             <span class="required">Periode de facturation</span>

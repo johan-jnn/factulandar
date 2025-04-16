@@ -31,7 +31,7 @@
 }'
     x-modelable='lines'>
     <div class="page">
-        <h2>Facture n°{{ $invoice->number() }}</h2>
+        <h2>Facture {{ $invoice->number() }}</h2>
         <p>Du {{ $invoice->period_start->format('d/m/Y') }} au {{ $invoice->period_end->format('d/m/Y') }}</p>
         <hr>
         <section class="address">

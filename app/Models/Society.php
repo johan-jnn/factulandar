@@ -16,8 +16,12 @@ class Society extends Model
 
     public function get_invoice_number(Invoice $invoice)
     {
-        if ($this->invoices_no_format === null)
+        if ($this->invoices_no_format === null) {
+            if ($invoice->name)
+                return $invoice->name;
             return "{$this->id}-{$invoice->client->id}-{$invoice->id}";
+        }
+
         return "";
     }
 }
