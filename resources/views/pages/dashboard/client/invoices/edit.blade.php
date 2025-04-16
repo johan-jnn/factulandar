@@ -6,7 +6,7 @@
 
 @section('body')
     <main>
-        <h1>Facture {{ $invoice->number() }}</h1>
+        <h1>Edition de facture</h1>
         <ul>
             <li>Client: {{ $invoice->client->name }}</li>
             <li>Société: {{ $invoice->society->name }}</li>

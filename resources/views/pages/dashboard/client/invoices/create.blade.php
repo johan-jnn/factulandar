@@ -56,7 +56,7 @@
                             @error('tav_ratio')
                                 <span class="error">{{ $message }}</span>
                             @enderror
-                            <input type="number" name="tav_ratio" value="0" min="0" required>
+                            <input type="number" name="tav_ratio" step="0.01" value="0" min="0" required>
                         </label>
                         <hr>
                         <h2>Ajouts des événements</h2>

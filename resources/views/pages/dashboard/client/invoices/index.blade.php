@@ -25,7 +25,7 @@
                     <td>
                         {{ $invoice->created_at->format('d/m/Y') }}
                     </td>
-                    <td>
+                    <td class="invoice-actions">
                         @if (!$invoice->validated)
                             <a
                                 href="{{ route('invoices.edit', [
@@ -46,6 +46,18 @@
                                 📤️
                             </button>
                         </a>
+                        <form
+                            action="{{ route('invoices.destroy', [
+                                'client' => $client,
+                                'invoice' => $invoice,
+                            ]) }}">
+                            @csrf
+                            @method('delete')
+
+                            <button style="width: 100%; margin-top: 0.5em;" type="submit" title="Supprimer la facture">
+                                🗑️
+                            </button>
+                        </form>
                     </td>
                 </tr>
             @endforeach

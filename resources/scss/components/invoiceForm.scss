@@ -5,3 +5,34 @@ form.invoice-creator {
 		margin: 1em 0 0.5em;
 	}
 }
+
+.invoice-actions {
+	display: grid;
+	grid: auto / repeat(2, 1fr);
+	grid-template-areas:
+		"edit show"
+		"delt delt";
+	gap: 0.25em;
+
+	&:has(> a:first-of-type:last-of-type) {
+		grid-template-areas:
+			"show show"
+			"delt delt";
+	}
+
+	* {
+		width: 100%;
+		height: 100%;
+		margin: 0 !important;
+	}
+
+	> a:first-of-type {
+		grid-area: edit;
+	}
+	> a:last-of-type {
+		grid-area: show;
+	}
+	> form {
+		grid-area: delt;
+	}
+}

@@ -30,7 +30,8 @@ Route::middleware("auth")->group(function () {
   Route::resource('/app/clients/{client}/invoices', InvoiceController::class)
     ->middlewareFor(['create'], EnsureUserHasASociety::class);
   
-  Route::resource('/invoices/{invoice}/items', InvoiceItemController::class)->except('show');
+  Route::resource('/invoices/items', InvoiceItemController::class)->only(['store', 'update', 'destroy']);
+  Route::post('/invoices/items/blank', [InvoiceItemController::class,'store_blank'])->name('items.blank');
 });
 
 Route::middleware("guest")->group(function () {

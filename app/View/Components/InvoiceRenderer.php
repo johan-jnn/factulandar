@@ -9,12 +9,13 @@ use Illuminate\View\Component;
 
 class InvoiceRenderer extends Component
 {
+    public string $contenteditable;
     /**
      * Create a new component instance.
      */
     public function __construct(public Invoice $invoice, public bool $editable = false)
     {
-        //
+        $this->contenteditable = $editable ? "true" : "false";
     }
 
     /**

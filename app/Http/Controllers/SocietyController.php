@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Society;
-use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
 
 class SocietyController
 {
-    private function ensureUserHasSociety(Society $society)
+    public static function ensureUserHasSociety(Society $society)
     {
         abort_if(
             $society->owner_id !== Auth::user()->id,
@@ -44,7 +43,7 @@ class SocietyController
 
     public function update(Request $request, Society $society)
     {
-        $this->ensureUserHasSociety($society);
+        SocietyController::ensureUserHasSociety($society);
 
         $updated_society_info = $request->validate([
             "new_name" => "required|max:50",
@@ -65,7 +64,7 @@ class SocietyController
 
     public function destroy(Request $request, Society $society)
     {
-        $this->ensureUserHasSociety($society);
+        Society::ensureUserHasSociety($society);
 
         $society->delete();
 

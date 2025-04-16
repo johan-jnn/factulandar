@@ -109,6 +109,10 @@ a:not(:has(:not(span))) {
 		width: 100%;
 	}
 }
+a:has(> button) {
+	display: inline-block;
+	width: fit-content;
+}
 
 dialog {
 	position: fixed;
@@ -156,10 +160,12 @@ table {
 	> thead {
 		background-color: rgba($color: map-get($colors, "primary"), $alpha: 0.5);
 	}
-	> tbody > tr {
-		&:not(:first-of-type) {
-			border-top: 2.5px dashed
-				rgba($color: map-get($map: $colors, $key: "primary"), $alpha: 0.75);
+	> tbody {
+		> tr {
+			&:not(:first-of-type) {
+				border-top: 2.5px dashed
+					rgba($color: map-get($map: $colors, $key: "primary"), $alpha: 0.75);
+			}
 		}
 	}
 	> tfoot {
@@ -177,6 +183,12 @@ hr {
 	max-width: 500px;
 	border: 2px solid map-get($map: $colors, $key: "primary");
 	border-radius: 999px;
+
+	&[data-vertical] {
+		height: 100%;
+		display: inline;
+		padding: 10px 0;
+	}
 }
 
 .danger {

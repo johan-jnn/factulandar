@@ -4,6 +4,28 @@
 body:has(.invoice-renderer) {
 	.invoice-renderer {
 		> .page {
+			@media screen {
+				*[contenteditable="true"] {
+					outline: 1px solid map-get($map: $colors, $key: "primary");
+					padding: 5px;
+					position: relative;
+
+					&:empty,
+					&.force-empty {
+						&::before {
+							content: attr(aria-placeholder);
+							position: absolute;
+							top: 50%;
+							left: 5px;
+							translate: 0 -50%;
+							opacity: 0.5;
+
+							pointer-events: none;
+						}
+					}
+				}
+			}
+
 			> h2 {
 				text-align: center;
 			}
@@ -29,15 +51,43 @@ body:has(.invoice-renderer) {
 					text-wrap: nowrap;
 				}
 
-				td:first-of-type {
-					text-align: left;
+				td {
+					&:first-of-type {
+						text-align: left;
 
-					> p {
-						font-size: 0.65em;
-						margin-top: 0.25em;
-						font-style: italic;
-						color: rgba($color: map-get($colors, "dark"), $alpha: 0.5);
+						> p {
+							font-size: 0.65em;
+							margin-top: 0.25em;
+							font-style: italic;
+							color: rgba($color: map-get($colors, "dark"), $alpha: 0.5);
+
+							&:not([contenteditable="true"]) {
+								&:empty,
+								&.force-empty {
+									display: none;
+								}
+							}
+							@media print {
+								&:empty,
+								&.force-empty {
+									display: none;
+								}
+							}
+						}
 					}
+
+					> div {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+					}
+				}
+
+				.adder ul {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					gap: 1em;
 				}
 			}
 
@@ -46,7 +96,7 @@ body:has(.invoice-renderer) {
 				padding: 1em 0;
 				font-size: 0.75em;
 				color: rgba($color: map-get($colors, "dark"), $alpha: 0.85);
-        font-style: italic;
+				font-style: italic;
 			}
 		}
 	}
@@ -72,6 +122,11 @@ body:has(.invoice-renderer) {
 
 		.invoice-renderer {
 			font-size: 12px;
+
+			.actions,
+			.adder {
+				display: none;
+			}
 		}
 	}
 }

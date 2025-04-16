@@ -11,9 +11,9 @@ use Illuminate\Validation\Rule;
 
 class InvoiceController
 {
-    public static function EnsureInvoiceManagedByUser(Invoice $invoice)
+    public static function ensureInvoiceManagedByUser(Invoice $invoice)
     {
-
+        SocietyController::ensureUserHasSociety($invoice->society);
     }
 
     /**
