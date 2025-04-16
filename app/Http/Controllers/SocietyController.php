@@ -64,7 +64,7 @@ class SocietyController
 
     public function destroy(Request $request, Society $society)
     {
-        Society::ensureUserHasSociety($society);
+        SocietyController::ensureUserHasSociety($society);
 
         $society->delete();
 
