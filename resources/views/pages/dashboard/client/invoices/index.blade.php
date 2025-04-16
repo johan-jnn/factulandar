@@ -50,7 +50,8 @@
                             action="{{ route('invoices.destroy', [
                                 'client' => $client,
                                 'invoice' => $invoice,
-                            ]) }}">
+                            ]) }}"
+                            method="post">
                             @csrf
                             @method('delete')
 
@@ -65,10 +66,10 @@
         <tfoot>
             <tr>
                 <td colspan="3">
-                    <a
-                        href="{{ route('invoices.create', [
-                            'client' => $client,
-                        ]) }}">
+                    <a href="{{ route('invoices.create', [
+                        'client' => $client,
+                    ]) }}"
+                        style="width: 100%;">
                         <button type="button" style="width: 100%" title="Créer une nouvelle facture">📝</button>
                     </a>
                 </td>

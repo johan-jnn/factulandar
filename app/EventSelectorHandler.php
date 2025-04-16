@@ -28,7 +28,7 @@ class EventSelectorHandler
             'items.*.tav_ratio' => 'nullable|decimal:0,2|min:0',
         ]);
 
-        return $this->invoice->items()->createMany($validated['events']);
+        return $this->invoice->items()->createMany($validated['items']);
     }
     public function set(Request $request)
     {

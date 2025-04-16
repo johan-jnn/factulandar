@@ -28,11 +28,11 @@ Route::middleware("auth")->group(function () {
 
   // Invoices
   Route::resource('/app/clients/{client}/invoices', InvoiceController::class)
-    ->middlewareFor(['create'], EnsureUserHasASociety::class);
-  
+    ->middlewareFor(['create'], EnsureUserHasASociety::class)->except('update');
+
   Route::resource('/invoices/items', InvoiceItemController::class)->only(['store', 'update', 'destroy']);
-  Route::post('/invoices/items/blank', [InvoiceItemController::class,'store_blank'])->name('items.blank');
-  Route::put('/invoices/items', [InvoiceItemController::class,'updateAll'])->name('items.updateAll');
+  Route::post('/invoices/items/blank', [InvoiceItemController::class, 'store_blank'])->name('items.blank');
+  Route::put('/invoices/items', [InvoiceItemController::class, 'updateAll'])->name('items.updateAll');
 });
 
 Route::middleware("guest")->group(function () {

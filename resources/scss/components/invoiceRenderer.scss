@@ -22,7 +22,8 @@ body:has(.invoice-renderer) {
 				}
 			}
 
-			> h2 {
+			> h2,
+			> p {
 				text-align: center;
 			}
 

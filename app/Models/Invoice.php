@@ -10,7 +10,14 @@ class Invoice extends Model
         "tav_ratio",
         "society_id",
         "client_id",
-        "name"
+        "name",
+        "period_start",
+        "period_end"
+    ];
+
+    protected $casts = [
+        "period_start" => "date",
+        "period_end" => "date"
     ];
 
     public function items()

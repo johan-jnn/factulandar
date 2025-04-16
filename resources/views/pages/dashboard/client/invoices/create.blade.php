@@ -58,6 +58,23 @@
                             @enderror
                             <input type="number" name="tav_ratio" step="0.01" value="0" min="0" required>
                         </label>
+                        <label style="width: fit-content;" @change="apply()">
+                            <span class="required">Periode de facturation</span>
+                            <div class="inline-label-group">
+                                <label class="inline">
+                                    <span>Entre</span>
+                                    <input type="date" x-model="min_date" :min="calendar_ranges[0]"
+                                        :max="max_date" title="Période de facturation"
+                                        name="period_start" required />
+                                </label>
+                                <label class="inline">
+                                    <span>Et</span>
+                                    <input type="date" x-model="max_date" :min="min_date"
+                                        :max="calendar_ranges[1]" title="Période de facturation"
+                                        name="period_end" required />
+                                </label>
+                            </div>
+                        </label>
                         <hr>
                         <h2>Ajouts des événements</h2>
                     </x-slot:begin_with>

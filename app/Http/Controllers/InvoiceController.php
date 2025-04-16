@@ -68,6 +68,8 @@ class InvoiceController
             ],
             'tav_ratio' => 'required|decimal:0,2',
             'name' => 'nullable|string|max:100',
+            'period_start' => 'required|date',
+            'period_end' => 'required|date',
         ]);
         $invoice_data['client_id'] = $client->id;
 
@@ -115,19 +117,19 @@ class InvoiceController
             'invoice' => $invoice
         ]);
     }
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Client $client, Invoice $invoice)
     {
-        //
+        InvoiceController::ensureInvoiceManagedByUser($invoice);
+        $invoice->delete();
+        return to_route('invoices.index', [
+            'client' => $client
+        ])
+            ->with([
+                'message' => "La facture n°{$invoice->number()} a bien été supprimé."
+            ]);
     }
 }

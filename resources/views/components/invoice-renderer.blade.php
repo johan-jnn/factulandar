@@ -5,7 +5,7 @@
         return Object.values(this.lines).reduce((v, item) => {
             return (
                 v 
-                + item.unit_price * item.amount * (1 + (item.tav_ratio ?? {{ $invoice->tav_ratio }}) / 100)
+                + item.unit_price * item.amount * (1 + (item.tav_ratio ?? {{ $invoice->tav_ratio }}) / 100 * taxes)
             )
         }, 0);
     },
@@ -32,6 +32,7 @@
     x-modelable='lines'>
     <div class="page">
         <h2>Facture n°{{ $invoice->number() }}</h2>
+        <p>Du {{ $invoice->period_start->format('d/m/Y') }} au {{ $invoice->period_end->format('d/m/Y') }}</p>
         <hr>
         <section class="address">
             <div>
@@ -52,6 +53,7 @@
                         <th>Prix unitaire</th>
                         <th>Quantité</th>
                         <th>TVA</th>
+                        <th>Prix final (HT)</th>
                         <th>Prix final (TTC)</th>
                         @if ($editable)
                             <th class="actions">Actions</th>
@@ -121,8 +123,17 @@
                             </td>
                             <td x-data="{ line: lines['{{ $line->id }}'] }">
                                 @if ($editable)
+                                    <span x-text='(line.unit_price * line.amount).toFixed(2)'>
+                                    </span>
+                                @else
+                                    <span>{{ $line->price_ht() }}</span>
+                                @endif
+                                €
+                            </td>
+                            <td x-data="{ line: lines['{{ $line->id }}'] }">
+                                @if ($editable)
                                     <span
-                                        x-text='line.unit_price * line.amount * (1 + (line.tav_ratio ?? {{ $invoice->tav_ratio }}) / 100)'>
+                                        x-text='(line.unit_price * line.amount * (1 + (line.tav_ratio ?? {{ $invoice->tav_ratio }}) / 100)).toFixed(2)'>
                                     </span>
                                 @else
                                     <span>{{ $line->price_ttc() }}</span>
@@ -149,15 +160,15 @@
                             <td colspan="6">
                                 <ul>
                                     <li>
-                                        <form
-                                            action="{{ route('items.updateAll') }}"
-                                            method="post">
+                                        <form action="{{ route('items.updateAll') }}" method="post">
                                             @csrf
                                             @method('put')
                                             <template x-for="(item, id) in lines">
                                                 <template x-for="(data, key) in item">
-                                                    <input type="hidden" :name="`items[${id}][${key}]`"
-                                                        :value="data" x-if="data !== null">
+                                                    <template x-if="data !== null">
+                                                        <input type="hidden" :name="`items[${id}][${key}]`"
+                                                            :value="data">
+                                                    </template>
                                                 </template>
                                             </template>
                                             <button type="submit">Sauvegarder les modifications</button>
@@ -191,26 +202,20 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="4">Total HT</td>
+                        <td colspan="4">Total</td>
                         <td>
                             @if ($editable)
-                                <span x-text="total(false)"></span>
+                                <span x-text="total(false).toFixed(2)"></span>
                             @else
-                                {{ $invoice->price_ht() }}
+                                {{ round($invoice->price_ht(), 2) }}
                             @endif
                             €
                         </td>
-                        @if ($editable)
-                            <td class="actions"></td>
-                        @endif
-                    </tr>
-                    <tr>
-                        <td colspan="4">Total TTC</td>
                         <td>
                             @if ($editable)
-                                <span x-text="total(true)"></span>
+                                <span x-text="total(true).toFixed(2)"></span>
                             @else
-                                {{ $invoice->price_ttc() }}
+                                {{ round($invoice->price_ttc(), 2) }}
                             @endif
                             €
                         </td>
