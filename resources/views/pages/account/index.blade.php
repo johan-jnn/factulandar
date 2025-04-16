@@ -50,6 +50,7 @@
 
         <form x-data='{action: ""}' x-ref="danger_form" class="danger" :action="action" method="post">
             @csrf
+            @method('delete')
             <h3>Zone de danger</h3>
             <a href="{{ route('user.do_logout') }}">
               <button type="button"'>Se déconnecter</button>

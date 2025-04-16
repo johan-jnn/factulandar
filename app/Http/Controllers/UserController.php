@@ -68,4 +68,13 @@ class UserController extends Controller
             "message" => "Vos informations ont bien été modifiées"
         ]);
     }
+
+    public function delete(Request $request)
+    {
+        Auth::user()->delete();
+        Auth::logout();
+        return to_route('app.index')->with([
+            "message" => "Votre compte a bien été supprimé"
+        ]);
+    }
 }
