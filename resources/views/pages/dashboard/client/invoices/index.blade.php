@@ -26,6 +26,15 @@
                         {{ $invoice->created_at->format('d/m/Y') }}
                     </td>
                     <td class="invoice-actions">
+                        <a
+                            href="{{ route('invoices.show', [
+                                'client' => $client,
+                                'invoice' => $invoice,
+                            ]) }}">
+                            <button type="button" title="Voir la facture">
+                                📄
+                            </button>
+                        </a>
                         @if (!$invoice->validated)
                             <a
                                 href="{{ route('invoices.edit', [
@@ -37,15 +46,6 @@
                                 </button>
                             </a>
                         @endif
-                        <a
-                            href="{{ route('invoices.show', [
-                                'client' => $client,
-                                'invoice' => $invoice,
-                            ]) }}">
-                            <button type="button" title="Exporter la facture">
-                                📤️
-                            </button>
-                        </a>
                         <form
                             action="{{ route('invoices.destroy', [
                                 'client' => $client,

@@ -28,7 +28,7 @@ Route::middleware("auth")->group(function () {
 
   // Invoices
   Route::resource('/app/clients/{client}/invoices', InvoiceController::class)
-    ->middlewareFor(['create'], EnsureUserHasASociety::class)->except('update');
+    ->middlewareFor(['create'], EnsureUserHasASociety::class);
 
   Route::resource('/invoices/items', InvoiceItemController::class)->only(['store', 'update', 'destroy']);
   Route::post('/invoices/items/blank', [InvoiceItemController::class, 'store_blank'])->name('items.blank');

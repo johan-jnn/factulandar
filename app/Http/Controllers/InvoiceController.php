@@ -96,7 +96,7 @@ class InvoiceController
     {
         ClientController::ensureUserHasClient($client);
 
-        return view('pages.dashboard.client.invoices.edit', [
+        return view('pages.dashboard.client.invoices.show', [
             'invoice' => $invoice
         ]);
     }
@@ -109,13 +109,39 @@ class InvoiceController
         ClientController::ensureUserHasClient($client);
 
         if ($invoice->validated)
-            return $this->show($client, $invoice)->with([
-                'message' => 'La facture a été validée. Elle ne peut plus être modifiée.'
-            ]);
+            return redirect()
+                ->action(
+                    [self::class, 'show'],
+                    [
+                        'client' => $client,
+                        'invoice' => $invoice
+                    ]
+                )
+                ->with([
+                    'message' => 'La facture a été validée. Elle ne peut plus être modifiée.'
+                ]);
 
         return view('pages.dashboard.client.invoices.edit', [
             'invoice' => $invoice
         ]);
+    }
+
+    public function update(Request $request, Client $client, Invoice $invoice)
+    {
+        InvoiceController::ensureInvoiceManagedByUser($invoice);
+        $new_invoice_informations = $request->validate([
+            'validated' => 'boolean'
+        ]);
+        $invoice->update($new_invoice_informations);
+
+        return redirect()
+            ->action([self::class, 'show'], [
+                'client' => $client,
+                'invoice' => $invoice
+            ])
+            ->with([
+                'message' => 'La modification a bien été apporté'
+            ]);
     }
 
     /**

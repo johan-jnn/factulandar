@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
@@ -12,13 +13,24 @@ class Invoice extends Model
         "client_id",
         "name",
         "period_start",
-        "period_end"
+        "period_end",
+        "validated",
     ];
 
     protected $casts = [
         "period_start" => "date",
         "period_end" => "date"
     ];
+
+    public function validated(): Attribute
+    {
+        return Attribute::make(
+            fn() => $this->validated_at !== null,
+            fn($validated) => [
+                "validated_at" => $validated ? now() : null
+            ]
+        );
+    }
 
     public function items()
     {

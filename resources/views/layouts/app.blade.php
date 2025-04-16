@@ -17,6 +17,14 @@
 
     <link rel="shortcut icon" href="/icon.svg" type="image/svg">
 
+    <x-use-toasts />
+    @if (session('message'))
+        <x-toast text="{{ session('message') }}" />
+    @endif
+    @error('message')
+        <x-toast text="{{ $message }}" type="error" />
+    @enderror
+
     @yield('head')
 </head>
 

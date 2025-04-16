@@ -3,3 +3,18 @@
 @use "invoiceForm.scss";
 @use "eventList.scss";
 @use "invoiceRenderer.scss";
+
+.invoice-viewer {
+	> header {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 1em;
+
+    > * {
+      width: fit-content;
+      max-width: unset;
+      margin: 0;
+    }
+	}
+}
