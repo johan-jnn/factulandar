@@ -38,6 +38,17 @@ body:has(.invoice-renderer) {
 				align-items: center;
 				justify-content: space-between;
 				gap: 1.5em;
+
+				h3 {
+					> span {
+						display: block;
+						font-weight: 500;
+						font-size: 0.75em;
+						font-style: italic;
+						text-decoration: underline;
+						margin-bottom: 1em;
+					}
+				}
 			}
 
 			> section {

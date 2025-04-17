@@ -107,11 +107,17 @@
 
         <section class="address">
             <div>
-                <h3>{{ $invoice->society->name }}</h3>
+                <h3>
+                    <span>Emis par:</span>
+                    {{ $invoice->society->name }}
+                </h3>
                 <p>{{ $invoice->society->address }}</p>
             </div>
             <div>
-                <h3>{{ $invoice->client->name }}</h3>
+                <h3>
+                    <span>A l'attention de:</span>
+                    {{ $invoice->client->name }}
+                </h3>
                 <p>{{ $invoice->client->address }}</p>
             </div>
         </section>
