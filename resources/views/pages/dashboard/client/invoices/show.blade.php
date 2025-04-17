@@ -32,7 +32,7 @@
                     </button>
                 </form>
             @else
-                <a
+                <a  
                     href="{{ route('invoices.index', [
                         'client' => $invoice->client,
                     ]) }}">

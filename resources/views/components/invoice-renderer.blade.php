@@ -9,6 +9,7 @@
             )
         }, 0);
     },
+    edited: false,
     init() {
         ({{ $invoice->items->toJson() }}).forEach((item) => {
             const key = item.id.toString();
@@ -24,7 +25,10 @@
             const u = () => {
                 editable.classList.toggle("force-empty", !editable.innerText.trim());
             }
-            editable.addEventListener("input", u);
+            editable.addEventListener("input", () => {
+                this.edited = true;
+                u();
+            });
             u();
         });
     }
@@ -34,6 +38,70 @@
         <h2>Facture {{ $invoice->number() }}</h2>
         <p>Du {{ $invoice->period_start->format('d/m/Y') }} au {{ $invoice->period_end->format('d/m/Y') }}</p>
         <hr>
+        @if ($editable)
+            <menu type="toolbar">
+                <ul>
+                    <li x-show="!edited">
+                        <a
+                            href="{{ route('invoices.show', [
+                                'client' => $invoice->client,
+                                'invoice' => $invoice,
+                            ]) }}">
+                            <button type="button">
+                                Afficher la facture finale
+                            </button>
+                        </a>
+                    </li>
+                    <li>
+                        <button type="button" @click="window.print()">Impression rapide</button>
+                    </li>
+                    <li>
+                        <hr data-vertical="">
+                    </li>
+                    <li x-show="edited" x-transition>
+                        <form
+                            action="{{ route('items.updateAll', [
+                                'invoice' => $invoice,
+                            ]) }}"
+                            method="post">
+                            @csrf
+                            @method('put')
+                            <template x-for="(item, id) in lines">
+                                <template x-for="(data, key) in item">
+                                    <input type="hidden" :name="`items[${id}][${key}]`" :value="data">
+                                </template>
+                            </template>
+                            <button type="submit">Sauvegarder les modifications</button>
+                        </form>
+                    </li>
+                    <li x-show="edited" x-transition>
+                        <button @click="location.reload()">Annuler les modifications</button>
+                    </li>
+                    <li>
+                        <form
+                            action="{{ route('items.blank', [
+                                'invoice' => $invoice,
+                            ]) }}"
+                            method="post">
+                            @csrf
+                            @error('invoice_id')
+                                <span class="error">{{ $message }}</span>
+                            @enderror
+                            <button type="submit">Ajouter une ligne</button>
+                        </form>
+                    </li>
+                    {{-- <li>
+                                        <a href="#">
+                                            <button type="button"
+                                                title="Importer des lignes depuis le calendrier du client">
+                                                Importer une ligne
+                                            </button>
+                                        </a>
+                                    </li> --}}
+                </ul>
+            </menu>
+        @endif
+
         <section class="address">
             <div>
                 <h3>{{ $invoice->society->name }}</h3>
@@ -60,67 +128,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if ($editable)
-                        <tr class="adder">
-                            <td colspan="6">
-                                <ul>
-                                    <li>
-                                        <a
-                                            href="{{ route('invoices.show', [
-                                                'client' => $invoice->client,
-                                                'invoice' => $invoice,
-                                            ]) }}">
-                                            <button type="button">
-                                                Afficher la facture finale
-                                            </button>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <hr data-vertical="">
-                                    </li>
-                                    <li>
-                                        <form
-                                            action="{{ route('items.updateAll', [
-                                                'invoice' => $invoice,
-                                            ]) }}"
-                                            method="post">
-                                            @csrf
-                                            @method('put')
-                                            <template x-for="(item, id) in lines">
-                                                <template x-for="(data, key) in item">
-                                                    <input type="hidden" :name="`items[${id}][${key}]`"
-                                                        :value="data">
-                                                </template>
-                                            </template>
-                                            <button type="submit">Sauvegarder les modifications</button>
-                                        </form>
-                                    </li>
-                                    <li>
-                                        <form
-                                            action="{{ route('items.blank', [
-                                                'invoice' => $invoice,
-                                            ]) }}"
-                                            method="post">
-                                            @csrf
-                                            @error('invoice_id')
-                                                <span class="error">{{ $message }}</span>
-                                            @enderror
-                                            <button type="submit">Ajouter une ligne</button>
-                                        </form>
-                                    </li>
-                                    {{-- <li>
-                                        <a href="#">
-                                            <button type="button"
-                                                title="Importer des lignes depuis le calendrier du client">
-                                                Importer une ligne
-                                            </button>
-                                        </a>
-                                    </li> --}}
-                                </ul>
-                            </td>
-                        </tr>
-                    @endif
                     @foreach ($invoice->items->sortByDesc('created_at') as $line)
+                        @continue(!($editable || !!$line->title))
                         <tr x-data="{ line: lines['{{ $line->id }}'] }">
                             <td>
                                 <h4 contenteditable="{{ $contenteditable }}" x-data='{value:""}'
@@ -143,7 +152,7 @@
                                             value = parseFloat($el.innerText);
                                             if(isNaN(value)) value = null;
                                         '>
-                                        {{ $line->unit_price }}
+                                        {{ number_format($line->unit_price, 2) }}
                                     </span>
                                     €/
                                     <span contenteditable="{{ $contenteditable }}" x-data='{value:""}'
@@ -196,7 +205,7 @@
                                     <span x-text='(line.unit_price * line.amount).toFixed(2)'>
                                     </span>
                                 @else
-                                    <span>{{ $line->price_ht() }}</span>
+                                    <span>{{ number_format($line->price_ht(), 2) }}</span>
                                 @endif
                                 €
                             </td>
@@ -206,7 +215,7 @@
                                         x-text='(line.unit_price * line.amount * (1 + (line.tav_ratio ?? {{ $invoice->tav_ratio }}) / 100)).toFixed(2)'>
                                     </span>
                                 @else
-                                    <span>{{ $line->price_ttc() }}</span>
+                                    <span>{{ number_format($line->price_ttc(), 2) }}</span>
                                 @endif
                                 €
                             </td>
@@ -215,7 +224,7 @@
                                     <form
                                         action="{{ route('items.destroy', [
                                             'item' => $line,
-                                            'invoice' => $invoice
+                                            'invoice' => $invoice,
                                         ]) }}"
                                         method="post">
                                         @csrf
@@ -234,7 +243,7 @@
                             @if ($editable)
                                 <span x-text="total(false).toFixed(2)"></span>
                             @else
-                                {{ round($invoice->price_ht(), 2) }}
+                                {{ number_format($invoice->price_ht(), 2) }}
                             @endif
                             €
                         </td>
@@ -242,7 +251,7 @@
                             @if ($editable)
                                 <span x-text="total(true).toFixed(2)"></span>
                             @else
-                                {{ round($invoice->price_ttc(), 2) }}
+                                {{ number_format($invoice->price_ttc(), 2) }}
                             @endif
                             €
                         </td>

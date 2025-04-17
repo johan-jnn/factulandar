@@ -137,13 +137,11 @@
                         'selected' => $client->id == $selected_client?->id,
                         'disable-click' => isset($clientClickable) ? !$clientClickable : true,
                     ]) data-caption="{{ $client->name }}">
-                        <a
+                        <a class="as-btn"
                             href="{{ route('clients.show', [
                                 'client' => $client,
                             ]) }}">
-                            <button>
-                                {{ substr($client->name, 0, 3) }}
-                            </button>
+                            {{ substr($client->name, 0, 3) }}
                         </a>
                     </li>
                 @endforeach
@@ -152,11 +150,13 @@
                         ➕
                     </button>
                 </li>
-                <li data-caption="Rechercher un clients">
+
+                {{-- todo --}}
+                {{-- <li data-caption="Rechercher un clients">
                     <button type="button" @click="reset_search(),hide_all(),(searchbar= true)">
                         🔍️
                     </button>
-                </li>
+                </li> --}}
             </ul>
         </aside>
 

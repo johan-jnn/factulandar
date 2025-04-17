@@ -1,3 +1,11 @@
+@use "sass:map";
+@use "colors.scss" as *;
+
 .toast {
-  z-index: 50;
+	z-index: 50;
+	background: rgba(map-get($map: $colors, $key: "primary"), 0.75);
+	backdrop-filter: blur(15px);
+  &.error {
+    background: red;
+  }
 }

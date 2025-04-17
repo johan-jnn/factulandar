@@ -1,5 +1,5 @@
 @extends('layouts.dashboard', [
-    'page' => 'Nouvelle facture',
+    'page' => 'Factures',
     'client' => $invoice->client,
     'clientClickable' => true,
 ])
@@ -8,7 +8,7 @@
     <main>
         <h1>Edition de facture</h1>
         <ul>
-            <li>
+            <li style="margin-bottom: 0.25em">
                 Client:
                 <a
                     href="{{ route('clients.show', [
@@ -19,12 +19,11 @@
             </li>
             <li>
                 Société:
-                <a href="{{ route('societies.index')}}">
+                <a href="{{ route('societies.index') }}">
                     {{ $invoice->society->name }}
                 </a>
             </li>
         </ul>
-        <p>Vous pouvez imprimer ou exporter la facture en utilisant l'impression de page.</p>
 
         <x-invoice-renderer :invoice="$invoice" :editable="true" />
     </main>

@@ -58,17 +58,25 @@ body > main {
 					opacity: 1;
 				}
 
-				&.selected {
-					&.disable-click a {
-						pointer-events: none;
-					}
+				> a {
+					width: 100% !important;
+					aspect-ratio: 1 / 1;
+					display: grid !important;
+					place-content: center;
+					text-align: center;
+				}
 
-					button {
+				&.selected {
+					> a {
 						border-radius: 5px;
 						background-color: map-get($map: $colors, $key: "light");
 						color: map-get($map: $colors, $key: "primary");
 						border-color: map-get($map: $colors, $key: "primary");
 						scale: 1.05;
+					}
+
+					&.disable-click a {
+						pointer-events: none;
 					}
 				}
 			}

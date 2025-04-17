@@ -1,6 +1,8 @@
 @use "sass:map";
 @use "../colors.scss" as *;
 
+$toolbar-height: 7.5vh;
+
 body:has(.invoice-renderer) {
 	.invoice-renderer {
 		> .page {
@@ -20,21 +22,15 @@ body:has(.invoice-renderer) {
 						}
 					}
 				}
+
+				&:has(> menu) {
+					padding-bottom: calc(#{$toolbar-height} + 15px);
+				}
 			}
 
 			> h2,
 			> p {
 				text-align: center;
-			}
-
-			input, textarea {
-				font: inherit;
-				padding: 5px;
-				margin: 0;
-				border-radius: 0;
-				border-color: map-get($map: $colors, $key: "primary");
-				display: inline;
-				color: inherit;
 			}
 
 			> .address {
@@ -48,6 +44,28 @@ body:has(.invoice-renderer) {
 				padding: {
 					left: 0;
 					right: 0;
+				}
+			}
+
+			> menu {
+				position: fixed;
+				bottom: 10px;
+				left: 50%;
+				translate: -50% 0;
+
+				background-color: rgba($color: map-get($colors, "light"), $alpha: 0.5);
+				backdrop-filter: blur(5px);
+				z-index: 5;
+				border-radius: 1em;
+
+				> ul {
+					height: $toolbar-height;
+					padding: 1em 2em;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					text-wrap: nowrap;
+					gap: 1em;
 				}
 			}
 
@@ -131,7 +149,8 @@ body:has(.invoice-renderer) {
 			font-size: 12px;
 
 			.actions,
-			.adder {
+			.adder,
+			menu {
 				display: none;
 			}
 		}

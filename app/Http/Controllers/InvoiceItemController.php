@@ -84,6 +84,8 @@ class InvoiceItemController
     public function destroy(Invoice $invoice, InvoiceItem $item)
     {
         $item->delete();
-        return $this->to_edit($item->invoice);
+        return $this->to_edit($item->invoice)->with([
+            'message' => "Ligne supprimée !"
+        ]);
     }
 }
