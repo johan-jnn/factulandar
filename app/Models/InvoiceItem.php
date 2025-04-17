@@ -27,7 +27,7 @@ class InvoiceItem extends Model
     }
     public function price_ttc()
     {
-        return $this->price_ht() * (1 + $this->tav());
+        return $this->price_ht() * (1 + $this->tav() / 100);
     }
 
     public function tav(): float

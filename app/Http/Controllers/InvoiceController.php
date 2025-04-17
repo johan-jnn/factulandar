@@ -5,23 +5,30 @@ namespace App\Http\Controllers;
 use App\EventSelectorHandler;
 use App\Models\Client;
 use App\Models\Invoice;
+use App\Models\InvoiceItem;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class InvoiceController
 {
-    public static function ensureInvoiceManagedByUser(Invoice $invoice)
-    {
-        SocietyController::ensureUserHasSociety($invoice->society);
-    }
+    public const invoice_items_validation = [
+        'items' => 'required|array',
+        'items.*.title' => 'required|string',
+        'items.*.description' => 'nullable|string',
+        'items.*.amount' => 'required|decimal:0,2|min:0',
+        'items.*.unit' => 'required|string|max:5',
+        'items.*.unit_price' => 'required|decimal:0,2|min:0',
+        'items.*.tav_ratio' => 'nullable|decimal:0,2|min:0',
+        // If _set is set to true, then the current invoice's items should be delete and replaced by the given ones
+        '_items_set' => 'nullable|boolean'
+    ];
 
     /**
      * Display a listing of the resource.
      */
     public function index(Client $client)
     {
-        ClientController::ensureUserHasClient($client);
         $invoices = $client->invoices();
         return view('pages.dashboard.client.invoices.index', [
             'client' => $client,
@@ -34,8 +41,6 @@ class InvoiceController
      */
     public function create(Client $client)
     {
-        ClientController::ensureUserHasClient($client);
-
         try {
             $calendar = $client->calendar();
         } catch (\Throwable $th) {
@@ -58,8 +63,6 @@ class InvoiceController
      */
     public function store(Request $request, Client $client)
     {
-        ClientController::ensureUserHasClient($client);
-
         $user = Auth::user();
         $invoice_data = $request->validate([
             'society_id' => [
@@ -70,6 +73,7 @@ class InvoiceController
             'name' => 'nullable|string|max:100',
             'period_start' => 'required|date',
             'period_end' => 'required|date',
+            //...InvoiceController::invoice_items_validation
         ]);
         $invoice_data['client_id'] = $client->id;
 
@@ -94,8 +98,6 @@ class InvoiceController
      */
     public function show(Client $client, Invoice $invoice)
     {
-        ClientController::ensureUserHasClient($client);
-
         return view('pages.dashboard.client.invoices.show', [
             'invoice' => $invoice
         ]);
@@ -106,8 +108,6 @@ class InvoiceController
      */
     public function edit(Client $client, Invoice $invoice)
     {
-        ClientController::ensureUserHasClient($client);
-
         if ($invoice->validated)
             return redirect()
                 ->action(
@@ -128,14 +128,15 @@ class InvoiceController
 
     public function update(Request $request, Client $client, Invoice $invoice)
     {
-        InvoiceController::ensureInvoiceManagedByUser($invoice);
         $new_invoice_informations = $request->validate([
-            'validated' => 'boolean'
+            'validated' => 'boolean',
+            //...InvoiceController::invoice_items_validation,
+            //'items' => 'nullable|array'
         ]);
         $invoice->update($new_invoice_informations);
 
         return redirect()
-            ->action([self::class, 'show'], [
+            ->action([self::class, 'edit'], [
                 'client' => $client,
                 'invoice' => $invoice
             ])
@@ -149,7 +150,6 @@ class InvoiceController
      */
     public function destroy(Client $client, Invoice $invoice)
     {
-        InvoiceController::ensureInvoiceManagedByUser($invoice);
         $invoice->delete();
         return to_route('invoices.index', [
             'client' => $client
@@ -157,5 +157,20 @@ class InvoiceController
             ->with([
                 'message' => "La facture n°{$invoice->number()} a bien été supprimé."
             ]);
+    }
+
+    public function add_blank_item(Invoice $invoice)
+    {
+        InvoiceItem::create([
+            'title' => "",
+            'unit' => "u",
+            'amount' => 1,
+            'unit_price' => 0,
+            'invoice_id' => $invoice->id,
+        ]);
+
+        return redirect()->action([self::class, 'edit'], ['client' => $invoice->client, 'invoice' => $invoice])->with([
+            'message' => 'Element ajouté'
+        ]);
     }
 }

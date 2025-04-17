@@ -5,17 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Society;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
-class SocietyController
+class SocietyController extends Controller
 {
-    public static function ensureUserHasSociety(Society $society)
-    {
-        abort_if(
-            $society->owner_id !== Auth::user()->id,
-            404
-        );
-    }
-
     public function index(Request $request)
     {
         $societies = Auth::user()->societies();
@@ -44,8 +37,6 @@ class SocietyController
 
     public function update(Request $request, Society $society)
     {
-        SocietyController::ensureUserHasSociety($society);
-
         $updated_society_info = $request->validate([
             "new_name" => "required|max:50",
             "new_address" => "required|min:15",
@@ -66,10 +57,7 @@ class SocietyController
 
     public function destroy(Request $request, Society $society)
     {
-        SocietyController::ensureUserHasSociety($society);
-
         $society->delete();
-
         return to_route('societies.index')->with([
             'message' => "{$society->name} vient d'être supprimée"
         ]);

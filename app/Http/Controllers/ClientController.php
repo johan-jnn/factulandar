@@ -4,15 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Auth;
+use Gate;
 use Illuminate\Http\Request;
 
 class ClientController
 {
-    public static function ensureUserHasClient(Client $client)
-    {
-        abort_if($client->user_id !== Auth::user()->id, 404);
-    }
-
     public function create(Request $request)
     {
         return to_route('app.index')->withInput([
@@ -46,7 +42,6 @@ class ClientController
      */
     public function show(Client $client)
     {
-        $this->ensureUserHasClient($client);
         return view('pages.dashboard.client.index', [
             'client' => $client,
         ]);
@@ -57,7 +52,6 @@ class ClientController
      */
     public function edit(Client $client)
     {
-        $this->ensureUserHasClient($client);
         return view('pages.dashboard.client.edit', [
             'client' => $client,
         ]);
@@ -68,8 +62,6 @@ class ClientController
      */
     public function update(Request $request, Client $client)
     {
-        $this->ensureUserHasClient($client);
-
         $client_new_info = $request->validate([
             "name" => "required|max:50",
             "calendar_url" => "required|url:http,https",
@@ -91,8 +83,6 @@ class ClientController
      */
     public function destroy(Client $client)
     {
-        $this->ensureUserHasClient($client);
-
         $client->delete();
         return to_route('app.index')->with([
             'message' => "{$client->name} vient d'être supprimé"

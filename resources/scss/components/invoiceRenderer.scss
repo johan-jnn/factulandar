@@ -27,6 +27,16 @@ body:has(.invoice-renderer) {
 				text-align: center;
 			}
 
+			input, textarea {
+				font: inherit;
+				padding: 5px;
+				margin: 0;
+				border-radius: 0;
+				border-color: map-get($map: $colors, $key: "primary");
+				display: inline;
+				color: inherit;
+			}
+
 			> .address {
 				display: flex;
 				align-items: center;

@@ -4,7 +4,7 @@
       calendar_ranges: [null, null],
       min_date: null,
       max_date: null,
-      group: {{ old('group') === 'on' ? 'true' : 'false' }},
+      group: {{ old('group', 'on') === 'on' ? 'true' : 'false' }},
       query: "",
       events: [],
 
@@ -83,19 +83,6 @@
             <input type="text" x-model="query" name="query" @input="apply()"
                 placeholder="Inclure uniquement les événements contenant ce texte dans le titre et/ou description.">
         </label>
-
-        {{-- <div class="inline-label-group">
-          <label class="inline">
-              <span>Trier par</span>
-              <select name="order_by">
-
-              </select>
-          </label>
-          <label class="inline">
-            <span></span>
-          </label>
-        </div> --}}
-
         <label class="inline">
             <span>Grouper les événements</span>
             <input type="checkbox" x-model="group" name="group">

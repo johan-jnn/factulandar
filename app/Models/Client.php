@@ -28,4 +28,9 @@ class Client extends Model
         abort_if(!$json->ok(), $json->status());
         return $json->json();
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -21,18 +21,30 @@ Route::middleware("auth")->group(function () {
   Route::view("/app", "pages.dashboard.index")->name("app.index");
 
   // Societies
-  Route::resource('/me/societies', SocietyController::class)->only(['index', 'store', 'update', 'destroy']);
+  Route::resource('/me/societies', SocietyController::class)
+    ->only(['index', 'store', 'update', 'destroy'])
+    ->middlewareFor(['store', 'update', 'destroy'], 'can:manage,society');
 
   // Clients
-  Route::resource('/app/clients', ClientController::class)->except(['index']);
+  Route::resource('/app/clients', ClientController::class)
+    ->except(['index'])
+    ->withoutMiddlewareFor(['create', 'store'], 'can:manage,client');
 
   // Invoices
   Route::resource('/app/clients/{client}/invoices', InvoiceController::class)
-    ->middlewareFor(['create'], EnsureUserHasASociety::class);
+    ->middlewareFor(['create'], EnsureUserHasASociety::class)
+    ->middlewareFor(['index', 'create', 'store'], 'can:manage,client')
+    ->middlewareFor(['show', 'edit', 'update', 'destroy'], 'can:manage,invoice');
 
-  Route::resource('/invoices/items', InvoiceItemController::class)->only(['store', 'update', 'destroy']);
-  Route::post('/invoices/items/blank', [InvoiceItemController::class, 'store_blank'])->name('items.blank');
-  Route::put('/invoices/items', [InvoiceItemController::class, 'updateAll'])->name('items.updateAll');
+  Route::resource('/app/invoices/{invoice}/items', InvoiceItemController::class)
+    ->only(['store', 'update', 'destroy'])
+    ->middleware('can:manage,invoice');
+  Route::post('/app/invoices/{invoice}/items/blank', [InvoiceItemController::class, 'store_blank'])
+    ->middleware('can:manage,invoice')
+    ->name('items.blank');
+  Route::put('/app/invoices/{invoice}/items', [InvoiceItemController::class, 'updateAll'])
+    ->middleware('can:manage,invoice')
+    ->name('items.updateAll');
 });
 
 Route::middleware("guest")->group(function () {

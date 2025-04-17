@@ -54,10 +54,8 @@
             <ul>
                 <li><a href="/">Quitter l'application</a></li>
                 <li>
-                    <a href="{{ route('user.edit') }}">
-                        <button type="button">
-                            👤 {{ Auth::user()->name }}
-                        </button>
+                    <a class="as-btn" href="{{ route('user.edit') }}">
+                        👤 {{ Auth::user()->name }}
                     </a>
                 </li>
             </ul>

@@ -52,7 +52,7 @@
                             </select>
                         </label>
                         <label>
-                            <span class="required">TVA (% / 100)</span>
+                            <span class="required">TVA (%)</span>
                             @error('tav_ratio')
                                 <span class="error">{{ $message }}</span>
                             @enderror

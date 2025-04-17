@@ -24,4 +24,9 @@ class Society extends Model
 
         return "";
     }
+
+    function owner()
+    {
+        return $this->belongsTo(User::class, "owner_id");
+    }
 }

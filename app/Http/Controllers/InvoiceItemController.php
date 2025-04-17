@@ -4,17 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\User;
+use Gate;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class InvoiceItemController
 {
-    public static function userHasAccessToItem(InvoiceItem $invoiceItem)
-    {
-        InvoiceController::ensureInvoiceManagedByUser($invoiceItem->invoice);
-    }
-
     private function to_edit(Invoice $invoice)
     {
         return to_route('invoices.edit', [
@@ -23,30 +20,21 @@ class InvoiceItemController
         ]);
     }
 
-    public function store_blank(Request $request)
+    public function store_blank(Request $request, Invoice $invoice)
     {
-        $item_data = $request->validate([
-            'invoice_id' => 'required|exists:invoices,id'
-        ]);
-        /**
-         * @var Invoice
-         */
-        $invoice = Invoice::find($item_data['invoice_id']);
-        InvoiceController::ensureInvoiceManagedByUser($invoice);
-
         $item_data = [
-            ...$item_data,
-            'title' => "Titre de facture",
+            'title' => "",
             'unit' => "u",
             'amount' => 1,
-            'unit_price' => "0"
+            'unit_price' => "0",
+            'invoice_id' => $invoice->id
         ];
         InvoiceItem::create($item_data);
 
         return $this->to_edit($invoice);
     }
 
-    public function updateAll(Request $request)
+    public function updateAll(Request $request, Invoice $invoice)
     {
         $items_entries = $request->validate([
             'items' => 'required|array',
@@ -57,18 +45,19 @@ class InvoiceItemController
             'items.*.unit_price' => 'required|decimal:0,2|min:0',
             'items.*.tav_ratio' => 'nullable|decimal:0,2|min:0',
         ]);
-        $items = collect($items_entries['items'])->map(function ($data, $id) {
+
+        $items = collect($items_entries['items'])->map(function ($data, $id) use ($invoice) {
             /**
-             * @var InvoiceItem
+             * @var InvoiceItem|null
              */
-            $item = InvoiceItem::find($id);
-            InvoiceItemController::userHasAccessToItem($item);
-            
+            $item = $invoice->items()->find($id);
+            Gate::denyIf(fn(User $user) => $item === null);
+
             $item->update($data);
             return $item;
         });
 
-        return $this->to_edit($items->first()->invoice)->with([
+        return $this->to_edit($invoice)->with([
             'message' => "Les éléments ont bien été modifiés."
         ]);
     }
@@ -76,7 +65,7 @@ class InvoiceItemController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Invoice $invoice)
     {
         // return $this->to_edit($invoiceItem->invoice);
     }
@@ -84,7 +73,7 @@ class InvoiceItemController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, InvoiceItem $item)
+    public function update(Request $request, Invoice $invoice, InvoiceItem $item)
     {
         return $this->to_edit($item->invoice);
     }
@@ -92,9 +81,8 @@ class InvoiceItemController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(InvoiceItem $item)
+    public function destroy(Invoice $invoice, InvoiceItem $item)
     {
-        InvoiceItemController::userHasAccessToItem($item);
         $item->delete();
         return $this->to_edit($item->invoice);
     }
