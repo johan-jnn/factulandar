@@ -1,7 +1,3 @@
-Voici une version améliorée et clarifiée de ton README :
-
----
-
 # 🧾 Factulandar – Outil de Gestion de Facturation Basé sur un Calendrier
 
 ## 📌 Description
