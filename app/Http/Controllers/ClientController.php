@@ -24,7 +24,8 @@ class ClientController
         $client_fillables = $request->validate([
             "name" => "required|max:50",
             "calendar_url" => "required|url:http,https",
-            "address" => "required|min:15"
+            "address" => "required|min:15",
+            "prefered_hours_price" => "required|decimal:0,2"
         ]);
 
         $client_fillables["user_id"] = Auth::user()->id;
@@ -65,7 +66,8 @@ class ClientController
         $client_new_info = $request->validate([
             "name" => "required|max:50",
             "calendar_url" => "required|url:http,https",
-            "address" => "required|min:15"
+            "address" => "required|min:15",
+            "prefered_hours_price" => "required|decimal:0,2"
         ]);
 
         $client->update($client_new_info);

@@ -28,7 +28,7 @@
                 <p style="margin-top: 1em;">{{ $calendar['description'] }}</p>
             </section>
             <section>
-                <x-events-selector-form :action="route('invoices.store', ['client' => $client])" :calendar="$calendar">
+                <x-events-selector-form :action="route('invoices.store', ['client' => $client])" :calendar="$calendar" :hours-price="$client->prefered_hours_price">
                     <x-slot:begin_with>
                         <h2>Paramètre de la facture</h2>
                         <label>

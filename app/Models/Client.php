@@ -13,6 +13,7 @@ class Client extends Model
         "address",
         "user_id",
         "prefered_society",
+        "prefered_hours_price"
     ];
 
     public function invoices()

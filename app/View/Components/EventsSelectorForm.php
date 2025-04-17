@@ -11,7 +11,7 @@ class EventsSelectorForm extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(public string $action, public array $calendar)
+    public function __construct(public string $action, public array $calendar, public ?float $hoursPrice = 0)
     {
         // 
     }

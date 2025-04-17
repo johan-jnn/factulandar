@@ -17,6 +17,14 @@
             <input type="text" name="name" value="{{ old('name', $client->name) }}" required>
         </label>
         <label>
+            <span class="required">Taux horaire par défaut (€/h)</span>
+            @error('prefered_hours_price')
+                <span class="error">{{ $message }}</span>
+            @enderror
+            <input type="number" step="0.01" name="prefered_hours_price"
+                value="{{ old('prefered_hours_price', $client->prefered_hours_price) }}" required>
+        </label>
+        <label>
             <span class="required">Calendrier du client</span>
             @error('calendar_url')
                 <span class="error">{{ $message }}</span>

@@ -23,7 +23,7 @@ Route::middleware("auth")->group(function () {
   // Societies
   Route::resource('/me/societies', SocietyController::class)
     ->only(['index', 'store', 'update', 'destroy'])
-    ->middlewareFor(['store', 'update', 'destroy'], 'can:manage,society');
+    ->middlewareFor(['update', 'destroy'], 'can:manage,society');
 
   // Clients
   Route::resource('/app/clients', ClientController::class)
