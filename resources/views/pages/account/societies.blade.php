@@ -37,7 +37,7 @@
                         <span class="error">{{ $message }}</span>
                     @enderror
                     <span>Format des numéros de factures</span>
-                    <input type="text" name="invoices_no_format" value="{{ old('invoices_no_format') }}">
+                    <input type="text" name="invoices_no_format" placeholder="%[csi]:(id|name|created)" value="{{ old('invoices_no_format') }}">
                 </label>
                 <label>
                     <span class="required">Addresse postale</span>
@@ -93,7 +93,8 @@
                         <span class="error"x-show="!!olds">{{ $message }}</span>
                     @enderror
                     <span>Format des numéros de factures</span>
-                    <input type="text" name="new_invoices_no_format" :value='olds?.invoices_no_format || society_edition?.invoices_no_format'>
+                    <input type="text" name="new_invoices_no_format" placeholder="%[csi]:(id|name|created)"
+                        :value='olds?.invoices_no_format || society_edition?.invoices_no_format'>
                 </label>
                 <label>
                     <span class="required">Addresse postale</span>

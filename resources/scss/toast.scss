@@ -3,9 +3,11 @@
 
 .toast {
 	z-index: 50;
-	background: rgba(map-get($map: $colors, $key: "primary"), 0.75);
-	backdrop-filter: blur(15px);
+	background: rgba(map-get($map: $colors, $key: "primary"), 0.75) !important;
+	backdrop-filter: blur(15px) !important;
+  border-radius: 15px !important;
+
   &.error {
-    background: red;
+    background: red !important;
   }
 }

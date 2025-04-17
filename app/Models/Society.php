@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\InvoiceNoFormator;
 use Illuminate\Database\Eloquent\Model;
 
 class Society extends Model
@@ -22,10 +23,10 @@ class Society extends Model
             return "{$this->id}-{$invoice->client->id}-{$invoice->id}";
         }
 
-        return "";
+        return new InvoiceNoFormator($invoice)->all($this->invoices_no_format);
     }
 
-    function owner()
+    public function owner()
     {
         return $this->belongsTo(User::class, "owner_id");
     }

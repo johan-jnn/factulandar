@@ -8,6 +8,7 @@
         <thead>
             <tr>
                 <th>Factures</th>
+                <th>Société</th>
                 <th>Date de création</th>
                 <th>Actions</th>
             </tr>
@@ -16,11 +17,10 @@
             @foreach ($invoices->orderBy('created_at')->get() as $invoice)
                 <tr>
                     <td>
-                        @isset($invoice->name)
-                            {{ $invoice->name }} (n° {{ $invoice->number() }})
-                        @else
-                            n° {{ $invoice->number() }}
-                        @endisset
+                        {{ $invoice->number() }}
+                    </td>
+                    <td>
+                        {{ $invoice->society->name }}
                     </td>
                     <td>
                         {{ $invoice->created_at->format('d/m/Y') }}
@@ -65,7 +65,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="3">
+                <td colspan="4">
                     <a href="{{ route('invoices.create', [
                         'client' => $client,
                     ]) }}"
