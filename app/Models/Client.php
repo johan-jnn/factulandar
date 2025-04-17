@@ -30,6 +30,15 @@ class Client extends Model
         return $json->json();
     }
 
+    public function nullable_calendar()
+    {
+        try {
+            return $this->calendar();
+        } catch (\Throwable $th) {
+            return null;
+        }
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

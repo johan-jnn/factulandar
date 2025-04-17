@@ -59,6 +59,9 @@
                         <hr data-vertical="">
                     </li>
                     <li x-show="edited" x-transition>
+                        <button @click="location.reload()">Annuler les modifications</button>
+                    </li>
+                    <li x-show="edited" x-transition>
                         <form
                             action="{{ route('items.updateAll', [
                                 'invoice' => $invoice,
@@ -74,8 +77,8 @@
                             <button type="submit">Sauvegarder les modifications</button>
                         </form>
                     </li>
-                    <li x-show="edited" x-transition>
-                        <button @click="location.reload()">Annuler les modifications</button>
+                    <li x-show="edited">
+                        <hr data-vertical="">
                     </li>
                     <li>
                         <form

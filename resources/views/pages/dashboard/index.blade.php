@@ -25,8 +25,8 @@
             <p>En cliquant sur le bouton <button type="button" class="visual">➕</button>, vous pouvez ajouter un nouveau
                 client.
             </p>
-            <p>Vous pouvez également rechercher des clients en appuyant sur le bouton <button type="button"
-                    class="visual">🔍️</button>.</p>
+            {{-- <p>Vous pouvez également rechercher des clients en appuyant sur le bouton <button type="button"
+                    class="visual">🔍️</button>.</p> --}}
             <hr>
             <p>Après avoir sélectionner un client, vous trouverez les informations sur celui-ci comme le nombre de facture
                 faites, le calendrier associé, etc...</p>
@@ -47,7 +47,7 @@
             <h2>Informations</h2>
             <p>Ce projet a été conçu pour un devoir d'étudiant chez My Digital School (Lyon).</p>
             <p>Vous pouvez retrouver le code source de ce projet sur <a href="https://github.com/johan-jnn/factulandar"
-                    target="_blank">le repo GitHub</a>.</p>
+                    target="_blank">le repo GitHub</a>, et ses autres projets sur <a href="https://johan-janin.com" target="_blank">son site web</a>.</p>
         </section>
     </main>
 @endsection

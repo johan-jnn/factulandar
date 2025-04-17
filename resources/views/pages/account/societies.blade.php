@@ -117,7 +117,6 @@
             </form>
         </dialog>
 
-        <h2>Mes sociétés</h2>
         <table>
             <thead>
                 <tr>

@@ -43,8 +43,10 @@ class ClientController
      */
     public function show(Client $client)
     {
+        $calendar = $client->nullable_calendar();
         return view('pages.dashboard.client.index', [
             'client' => $client,
+            'calendar' => $calendar
         ]);
     }
 

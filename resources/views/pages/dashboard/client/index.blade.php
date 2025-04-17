@@ -5,7 +5,9 @@
 @section('page')
     <h2>Statistiques de {{ $client->name }}</h2>
     <ul>
-        <li>Factures: 0</li>
-        <li>Evenements du calendrier: 0</li>
+        <li>Factures: {{ $client->invoices->count() }}</li>
+        @if ($calendar)
+            <li>Evenements du calendrier: {{ count($calendar['events']) }}</li>
+        @endif
     </ul>
 @endsection
