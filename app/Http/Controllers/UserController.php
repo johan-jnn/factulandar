@@ -73,7 +73,7 @@ class UserController extends Controller
     {
         Auth::user()->delete();
         Auth::logout();
-        return to_route('app.index')->with([
+        return redirect('/')->with([
             "message" => "Votre compte a bien été supprimé"
         ]);
     }
