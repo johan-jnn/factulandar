@@ -227,12 +227,27 @@ hr {
 	display: grid;
 	place-content: center;
 	text-align: center;
+
+	* {
+		margin-top: 0 !important;
+	}
 }
 
-main img {
-	width: min(90%, 850px);
-	margin: 5px auto;
-	border-radius: 15px;
+main.static {
+	img {
+		width: min(90%, 850px);
+		margin: 5px auto;
+		border-radius: 15px;
+		border: 1px solid map-get($map: $colors, $key: "primary");
+		display: block;
+		padding: 1em;
+	}
+	@for $i from 1 to 6 {
+		h#{$i} {
+			margin-top: calc(1em / #{$i});
+			margin-bottom: calc(2em / #{$i});
+		}
+	}
 }
 
 // AlpineJS
