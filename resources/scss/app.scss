@@ -229,6 +229,12 @@ hr {
 	text-align: center;
 }
 
+main img {
+	width: min(90%, 850px);
+	margin: 5px auto;
+	border-radius: 15px;
+}
+
 // AlpineJS
 [x-cloak] {
 	display: none !important;
