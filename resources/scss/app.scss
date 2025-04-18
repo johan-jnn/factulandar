@@ -48,6 +48,18 @@ h1 {
 ul,
 ol {
 	list-style: none;
+
+	&.stats {
+		display: flex;
+		gap: 1em;
+		margin-top: 1em;
+
+		> li {
+			padding: 15px;
+			border-radius: 5px;
+			border: 1px solid map-get($map: $colors, $key: "primary");
+		}
+	}
 }
 
 button,
