@@ -6,23 +6,24 @@ $toolbar-height: 7.5vh;
 body:has(.invoice-renderer) {
 	.invoice-renderer {
 		> .page {
-			@media screen {
-				*[contenteditable="true"] {
+			*[contenteditable="true"] {
+				@media screen {
 					outline: 1px solid map-get($map: $colors, $key: "primary");
 					padding: 5px;
-					position: relative;
+				}
+				position: relative;
 
-					&:empty,
-					&.force-empty {
-						&::before {
-							content: attr(aria-placeholder);
-							opacity: 0.5;
+				&:empty,
+				&.force-empty {
+					&::before {
+						content: attr(aria-placeholder);
+						opacity: 0.5;
 
-							pointer-events: none;
-						}
+						pointer-events: none;
 					}
 				}
-
+			}
+			@media screen {
 				&:has(> menu) {
 					padding-bottom: calc(#{$toolbar-height} + 15px);
 				}
@@ -48,6 +49,10 @@ body:has(.invoice-renderer) {
 						text-decoration: underline;
 						margin-bottom: 1em;
 					}
+				}
+
+				p {
+					white-space: pre-line;
 				}
 			}
 
@@ -133,6 +138,8 @@ body:has(.invoice-renderer) {
 				font-size: 0.75em;
 				color: rgba($color: map-get($colors, "dark"), $alpha: 0.85);
 				font-style: italic;
+
+				white-space: pre-line;
 			}
 		}
 	}
@@ -163,6 +170,15 @@ body:has(.invoice-renderer) {
 			.adder,
 			menu {
 				display: none;
+			}
+
+			*[contenteditable="true"] {
+				&:empty,
+				&.force-empty {
+					&::before {
+						opacity: 1 !important;
+					}
+				}
 			}
 		}
 	}

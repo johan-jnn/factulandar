@@ -23,7 +23,7 @@
                         {{ $invoice->society->name }}
                     </td>
                     <td>
-                        {{ $invoice->created_at->format('d/m/Y') }}
+                        {{ $invoice->created_at->format('d/m/Y H\hm') }}
                     </td>
                     <td class="invoice-actions">
                         <a
@@ -70,7 +70,7 @@
                         'client' => $client,
                     ]) }}"
                         style="width: 100%;">
-                        <button type="button" style="width: 100%" title="Créer une nouvelle facture">📝</button>
+                        <button type="button" style="width: 100%" title="Créer une nouvelle facture">📝 Nouvelle facture</button>
                     </a>
                 </td>
             </tr>

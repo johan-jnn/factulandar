@@ -36,8 +36,31 @@
                     @error('invoices_no_format')
                         <span class="error">{{ $message }}</span>
                     @enderror
-                    <span>Format des numéros de factures</span>
-                    <input type="text" name="invoices_no_format" placeholder="%[csi]:(id|name|created)" value="{{ old('invoices_no_format') }}">
+                    <span>
+                        Format des numéros de factures
+                        <x-helper>
+                            <p>Vous pouvez générer un identifiant de facture en fonction de ces variables</p>
+                            <hr>
+                            <h4>Format :</h4>
+                            <pre><code>%&lt;type&gt;:&lt;propriété&gt;</code></pre>
+                            <br>
+                            <h4>Types :</h4>
+                            <ul>
+                                <li><strong>c</strong> : <b>C</b>lient</li>
+                                <li><strong>i</strong> : Facture (<b>I</b>nvoice)</li>
+                                <li><strong>s</strong> : <b>S</b>ociété</li>
+                            </ul>
+                            <br>
+                            <h4>Propriétés :</h4>
+                            <ul>
+                                <li><strong>id</strong> : Identifiant unique</li>
+                                <li><strong>name</strong> : Nom ou intitulé</li>
+                                <li><strong>created</strong> : Date de création (format: YYYYMMDD)</li>
+                            </ul>
+                        </x-helper>
+                    </span>
+                    <input type="text" name="invoices_no_format" placeholder="%[csi]:(id|name|created)"
+                        value="{{ old('invoices_no_format') }}">
                 </label>
                 <label>
                     <span class="required">Addresse postale</span>
@@ -92,7 +115,29 @@
                     @error('new_invoices_no_format')
                         <span class="error"x-show="!!olds">{{ $message }}</span>
                     @enderror
-                    <span>Format des numéros de factures</span>
+                    <span>
+                        Format des numéros de factures
+                        <x-helper>
+                            <p>Vous pouvez générer un identifiant de facture en fonction de ces variables</p>
+                            <hr>
+                            <h4>Format :</h4>
+                            <pre><code>%&lt;type&gt;:&lt;propriété&gt;</code></pre>
+                            <br>
+                            <h4>Types :</h4>
+                            <ul>
+                                <li><strong>c</strong> : <b>C</b>lient</li>
+                                <li><strong>i</strong> : Facture (<b>I</b>nvoice)</li>
+                                <li><strong>s</strong> : <b>S</b>ociété</li>
+                            </ul>
+                            <br>
+                            <h4>Propriétés :</h4>
+                            <ul>
+                                <li><strong>id</strong> : Identifiant unique</li>
+                                <li><strong>name</strong> : Nom ou intitulé</li>
+                                <li><strong>created</strong> : Date de création (format: YYYYMMDD)</li>
+                            </ul>
+                        </x-helper>
+                    </span>
                     <input type="text" name="new_invoices_no_format" placeholder="%[csi]:(id|name|created)"
                         :value='olds?.invoices_no_format || society_edition?.invoices_no_format'>
                 </label>

@@ -1,0 +1,68 @@
+@use "sass:map";
+@use "../colors.scss" as *;
+
+.helper {
+	$bubble-gap: 15px;
+	$bubble-bg: rgba(
+		$color: map-get($colors, "primary"),
+		$alpha: 0.5,
+	);
+
+	position: relative;
+	padding-top: $bubble-gap;
+
+	> .openner {
+		cursor: help;
+		background-color: map-get($map: $colors, $key: "primary");
+		color: map-get($map: $colors, $key: "light");
+		aspect-ratio: 1 / 1;
+		border-radius: 999px;
+		width: 1.1em;
+		height: 1.1em;
+		display: inline-grid;
+		place-content: center;
+	}
+	> .content {
+		position: absolute;
+		bottom: calc(100% + 15px);
+		left: 50%;
+		translate: -50% 0;
+		background: $bubble-bg;
+		backdrop-filter: blur(15px);
+		opacity: 0;
+		pointer-events: none;
+		width: max-content;
+
+		font-size: 0.75em;
+
+		cursor: initial;
+
+		padding: 0.5em 1em;
+		border-radius: 1em;
+		z-index: 5;
+		color: map-get($map: $colors, $key: "light");
+
+		transition: 0.25s;
+
+		&::after {
+			content: "";
+			position: absolute;
+			height: calc($bubble-gap / 2);
+			aspect-ratio: 2 / 1;
+			clip-path: polygon(100% 0, 0 0, 50% 100%);
+			pointer-events: none;
+
+			top: 100%;
+			left: 50%;
+			translate: -50% 0;
+
+			background: $bubble-bg;
+		}
+	}
+
+	&:hover > .content {
+		opacity: 1;
+		pointer-events: all;
+		bottom: 100%;
+	}
+}
