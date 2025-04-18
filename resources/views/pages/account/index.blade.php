@@ -21,18 +21,27 @@
                 <span class="required">
                     Nom d'utilisateur
                 </span>
+                @error('name')
+                    <span class="error">{{ $message }}</span>
+                @enderror
                 <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" required>
             </label>
             <label>
                 <span class="required">
                     Adresse Email
                 </span>
+                @error('email')
+                    <span class="error">{{ $message }}</span>
+                @enderror
                 <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" required>
             </label>
             <label>
                 <span>
                     Changer de mot de passe
                 </span>
+                @error('password')
+                    <span class="error">{{ $message }}</span>
+                @enderror
                 <input type="password" name="password" x-model="_changedpsw" id="psw" value="{{ old('password') }}"
                     autocomplete="new-password">
             </label>
@@ -40,7 +49,10 @@
                 <span class="required">
                     Confirmez votre nouveau mot de passe
                 </span>
-                <input type="password" name="password_verification" id="psw_verif" :required="!!_changedpsw">
+                @error('password_confirmation')
+                    <span class="error">{{ $message }}</span>
+                @enderror
+                <input type="password" name="password_confirmation" id="psw_verif" :required="!!_changedpsw">
             </label>
 
             <div class="actions">
@@ -53,7 +65,7 @@
             @method('delete')
             <h3>Zone de danger</h3>
             <a href="{{ route('user.do_logout') }}">
-              <button type="button"'>Se déconnecter</button>
+                <button type="button"'>Se déconnecter</button>
             </a>
             <button type="submit"
                 @click.prevent='

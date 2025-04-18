@@ -57,11 +57,13 @@ class UserController extends Controller
         $user = Auth::user();
 
         $user_new_infos = $request->validate([
-            "name" => "required",
-            "email" => "required|email",
-            "password" => "required|confirmed",
+            "name" => "string",
+            "email" => "email",
+            "password" => "confirmed",
         ]);
 
+        if ($user_new_infos['password'] === null)
+            unset($user_new_infos['password']);
         $user->update($user_new_infos);
 
         return redirect()->intended(route('user.edit'))->with([
