@@ -212,6 +212,23 @@ hr {
 	border-radius: 5px;
 }
 
+.hero {
+	min-height: 80vh;
+	background: linear-gradient(
+		to top right,
+		rgba(map-get($colors, "primary"), 0.75),
+		rgba(map-get($colors, "primary"), 0.95),
+		rgba(map-get($colors, "primary"), 0.75)
+	);
+
+	color: map-get($map: $colors, $key: "light");
+	animation: hero-bg 10s infinite linear;
+
+	display: grid;
+	place-content: center;
+	text-align: center;
+}
+
 // AlpineJS
 [x-cloak] {
 	display: none !important;
