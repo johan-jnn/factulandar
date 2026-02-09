@@ -19,7 +19,7 @@ header {
 	background-color: rgba($color: map-get($colors, "light"), $alpha: 0.75);
   backdrop-filter: blur(15px);
 
-  z-index: 10;
+  z-index: 100;
 
 	> * {
 		text-align: center;
